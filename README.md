@@ -87,6 +87,8 @@ Material/amf_minimal.amf:
                   uuid: afe122be-59d3-4360-ad69-33c10108fa7a
       creationDateTime: 2020-11-10T13:20:00Z
   modificationDateTime: 2020-11-27T13:20:00Z
+                  RRT: RRT.a1.0.3 (ACES v1.0.3 RRT)
+                  ODT: ODT.Academy.P3D60_48nits.a1.0.3 (P3D60 ODT)
 ```
 
 To list multiple AMF files and their UUID, you can use the following command with the ``-c`` (compact) option:
