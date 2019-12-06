@@ -133,7 +133,7 @@ The ``render`` command
 Example:
 
 ```shell
-amf-util.py render /tmp/aces-dev-1.0.3/transforms/ctl Material/amf_minimal.amf
+$ amf-util.py render /tmp/aces-dev-1.0.3/transforms/ctl Material/amf_minimal.amf
 # Material/amf_minimal.amf
 # created by amf-util 0.0.1
 # transforms:
@@ -147,9 +147,9 @@ export CTL_MODULE_PATH="/tmp/aces-dev-1.0.3/transforms/ctl/utilities/"
 $CTLRENDER \
     -ctl /tmp/aces-dev-1.0.3/transforms/ctl/rrt/RRT.ctl \
     -ctl /tmp/aces-dev-1.0.3/transforms/ctl/odt/p3/ODT.Academy.P3D60_48nits.ctl \
-     -force \
-     path/to/input-file.tiff \
-     path/to/output-file.tiff
+    -force \
+    path/to/input-file.tiff \
+    path/to/output-file.tiff
 ```
 
 
