@@ -8,7 +8,7 @@ This is an utility with several commands for aiding the work of the AMF Imp VWG.
 With the AMF utility ``amf-util`` you can:
 
 * output information of an AMF file
-* creates a bash file that uses ctlrender to render the pipline from an AMF file
+* creates a bash file that uses ``ctlrender`` to render the pipeline from an AMF file
 
 ## Repository content
 
@@ -52,7 +52,8 @@ Here are the steps to use and learn more about the ``amf-util.py`` tool:
 $ git clone https://github.com/pomfort/amf-util.git
 $ cd amf-util
 $ ./amf-util.py --help
-$ ./amf-util.py read --help
+$ ./amf-util.py info --help
+$ ./amf-util.py render --help
 ```
 
 ### The ``info`` command
@@ -115,7 +116,7 @@ The ``render`` command outputs a bash file, that allows to render the pipeline f
 $ amf-util.py render --help
 Usage: amf-util.py render [OPTIONS] CTLROOTPATH FILEPATH
 
-  Read an AMF file at a given path and output a ctlrender command that
+  Read an AMF file at a given path and output a ``ctlrender`` command that
   renders the pipeline described in the AMF file.
 
 Options:
