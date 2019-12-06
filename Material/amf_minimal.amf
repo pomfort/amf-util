@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<acesMetadataFile xmlns="urn:acesMetadata:acesMetadataFile:v2.0"
+ xmlns:cdl="urn:ASC:CDL:v1.01"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="urn:acesMetadata:acesMetadataFile:v2.0 file:acesMetadataFile.xsd" version="2.0">
+    <amfInfo>
+        <description>Example Movie</description>
+        <dateTime>
+            <creationDateTime>2020-11-10T13:20:00Z</creationDateTime>
+            <modificationDateTime>2020-11-27T13:20:00Z</modificationDateTime>
+        </dateTime>
+        <uuid>afe122be-59d3-4360-ad69-33c10108fa7a</uuid>
+    </amfInfo>
+    <pipeline>
+        <pipelineInfo>
+            <dateTime>
+                <creationDateTime>2021-06-29T13:20:00Z</creationDateTime>
+                <modificationDateTime>2019-09-19T13:20:00</modificationDateTime>
+            </dateTime>
+            <acesVersion>
+                <acesMajorVersion>1</acesMajorVersion>
+                <acesMinorVersion>1</acesMinorVersion>
+                <acesPatchVersion>0</acesPatchVersion>
+            </acesVersion>
+        </pipelineInfo>
+        <outputTransform>
+            <referenceRenderingTransform>
+                <description>ACES v1.0.3 RRT</description>
+                <transformID>RRT.a1.0.3</transformID>
+            </referenceRenderingTransform>
+            <outputDeviceTransform>
+                <description>P3D60 ODT</description>
+                <transformID>ODT.Academy.P3D60_48nits.a1.0.3</transformID>
+            </outputDeviceTransform>
+        </outputTransform>
+    </pipeline>
+    </acesMetadataFile>

@@ -1,0 +1,10 @@
+Material/.DS_Store
+src/__pycache__
+src/amf/__pycache__
+src/util/__pycache__
+src/util/.DS_Store
+venv
+.DS_Store
+.idea
+env
+src/ctl/__pycache__
