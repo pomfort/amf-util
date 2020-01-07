@@ -210,22 +210,24 @@ class AmfFileReader:
             logger.info("      creationDateTime: {0}".format(self.aces_metadata_file.info.creation_date_time))
             logger.info("  modificationDateTime: {0}".format(self.aces_metadata_file.info.modification_date_time))
 
-            for transform in self.aces_metadata_file.pipeline.input_transforms:
-                logger.info("                   {0}: {1} ({2})".format(transform.type,
-                                                                       #transform.transform_id,
-                                                                       transform.short_transform_id(),
-                                                                       transform.description))
-            for transform in self.aces_metadata_file.pipeline.look_transforms:
-                logger.info("                   {0}: {1} ({2})".format(transform.type,
-                                                                       #transform.transform_id,
-                                                                       transform.short_transform_id(),
-                                                                       transform.description))
-            for transform in self.aces_metadata_file.pipeline.output_transforms:
-                logger.info("                   {0}: {1} ({2})".format(transform.type,
-                                                                       #transform.transform_id,
-                                                                       transform.short_transform_id(),
-                                                                       transform.description))
+            applied_string = ""
 
+            for transform in self.aces_metadata_file.pipeline.input_transforms:
+                self.log_transform_for_info(transform)
+            for transform in self.aces_metadata_file.pipeline.look_transforms:
+                self.log_transform_for_info(transform)
+            for transform in self.aces_metadata_file.pipeline.output_transforms:
+                self.log_transform_for_info(transform)
+
+    def log_transform_for_info(self, transform):
+        applied_string = ""
+        if transform.applied == True:
+            applied_string = " [applied=\"true\"]"
+        logger.info("                   {0}: {1}{2} ({3})".format(transform.type,
+                                                                  # transform.transform_id,
+                                                                  transform.short_transform_id(),
+                                                                  applied_string,
+                                                                  transform.description))
 
     def log_render(self, ctl_transforms, ctl_root_path):
 
@@ -254,18 +256,18 @@ class AmfFileReader:
         logger.info("$CTLRENDER \\")
 
         for transform in self.aces_metadata_file.pipeline.input_transforms:
-            self.log_transform(transform, ctl_root_path)
+            self.log_transform_for_render(transform, ctl_root_path)
 
         for transform in self.aces_metadata_file.pipeline.output_transforms:
-            self.log_transform(transform, ctl_root_path)
+            self.log_transform_for_render(transform, ctl_root_path)
 
         logger.info("     -force \\")
         logger.info("     path/to/input-file.tiff \\")
         logger.info("     path/to/output-file.tiff")
         logger.info("\n# -- end of script --\n")
 
-    def log_transform(self, transform, ctl_root_path):
-        if transform.applied is True:
-            logger.info("     # skipping {0} (applied=\"true\")".format(transform.short_transform_id()))
+    def log_transform_for_render(self, transform, ctl_root_path):
+        if transform.applied == True:
+            logger.info("     # skipping {0} [applied=\"true\"]".format(transform.short_transform_id()))
         else:
             logger.info("     -ctl {0}/{1} \\".format(ctl_root_path, transform.relative_path))
