@@ -4,10 +4,13 @@ from lxml import etree
 from src.util.xml import strip_ns_prefix
 import click
 import os
+import re
 
 amfutil_toolname_string = 'amf-util'
-amfutil_toolversion_string = '0.0.1'
+amfutil_toolversion_string = '0.0.2'
 
+# error codes
+amfutil_error_cannot_find_transform = 101
 
 class AcesMetadataFile:
     """class for representing a list of media hashes, e.g. from an MHL file,
@@ -56,6 +59,32 @@ class Pipeline:
         self.look_transforms = list()
         self.output_transforms = list()
 
+    def resolve_relative_paths(self, ctl_transforms):
+        for transform in self.input_transforms:
+            relative_path = ctl_transforms.relative_path_for_transform_id(transform.short_transform_id())
+            if relative_path is None and transform.applied == False:
+                logger.error("Cannot find a transform for inputTransform {0}!".format(transform.short_transform_id()))
+                exit(amfutil_error_cannot_find_transform)
+            else:
+                transform.relative_path = relative_path
+
+        for transform in self.look_transforms:
+            relative_path = ctl_transforms.relative_path_for_transform_id(transform.short_transform_id())
+            if relative_path is None:
+                logger.error("Cannot find a transform for lookTransform {0}!".format(transform.short_transform_id()))
+                exit(amfutil_error_cannot_find_transform)
+            else:
+                transform.relative_path = relative_path
+
+        for transform in self.output_transforms:
+            relative_path = ctl_transforms.relative_path_for_transform_id(transform.short_transform_id())
+            if relative_path is None:
+                logger.error("Cannot find a transform for outputTransform {0}!".format(transform.short_transform_id()))
+                exit(amfutil_error_cannot_find_transform)
+            else:
+                transform.relative_path = relative_path
+
+
 class Transform:
     """class for holding information of one transform
 
@@ -67,6 +96,12 @@ class Transform:
         self.type = None
         self.description = None
         self.transform_id = None
+        self.applied = False
+        self.relative_path = None
+
+    def short_transform_id(self):
+        # TODO: what can the version string be? (e.g. urn:ampas:aces:transformId:v1.5)
+        return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', self.transform_id)
 
 
 class AmfFileReader:
@@ -116,28 +151,52 @@ class AmfFileReader:
                 if ctx.verbose:
                     logger.info(f'  extracting <pipeline>...')
                 for pipeline_element in section_element.getchildren():
+
                     if pipeline_element.tag == 'inputTransform':
                         if ctx.verbose:
                             logger.info(f'    extracting <inputTransform>...')
-                        # TODO: implement
+                        transform = Transform()
+                        if pipeline_element.tag == 'transformId':
+                            transform.type = '???'
+                            transform.transform_id = output_element.text
+                        else:
+                            if pipeline_element.tag == 'inputTransform':
+                                transform.type = 'IDT'
+                                applied_attribute = pipeline_element.get('applied')
+                                if applied_attribute == 'true':
+                                    transform.applied = True
+                            for idt_element in pipeline_element.getchildren():
+                                if idt_element.tag == 'description':
+                                    transform.description = idt_element.text
+                                # TODO: find out if 'transformId' (introduced in examples in Jan 2020) or 'transformID'
+                                if idt_element.tag == 'transformId' or idt_element.tag == 'transformID':
+                                    transform.transform_id = idt_element.text
+                        self.aces_metadata_file.pipeline.input_transforms.append(transform)
+
                     if pipeline_element.tag == 'lookTransform':
                         if ctx.verbose:
                             logger.info(f'    extracting <lookTransform>...')
                         # TODO: implement
+
                     if pipeline_element.tag == 'outputTransform':
                         if ctx.verbose:
                             logger.info(f'    extracting <outputTransform>...')
                         for output_element in pipeline_element.getchildren():
                             transform = Transform()
-                            if output_element.tag == 'referenceRenderingTransform':
-                                transform.type = 'RRT'
-                            elif output_element.tag == 'outputDeviceTransform':
-                                transform.type = 'ODT'
-                            for rrt_element in output_element.getchildren():
-                                if rrt_element.tag == 'description':
-                                    transform.description = rrt_element.text
-                                if rrt_element.tag == 'transformID':
-                                    transform.transform_id = rrt_element.text
+                            if output_element.tag == 'transformId':
+                                transform.type = '???'
+                                transform.transform_id = output_element.text
+                            else:
+                                if output_element.tag == 'referenceRenderingTransform':
+                                    transform.type = 'RRT'
+                                elif output_element.tag == 'outputDeviceTransform':
+                                    transform.type = 'ODT'
+                                for rrt_element in output_element.getchildren():
+                                    if rrt_element.tag == 'description':
+                                        transform.description = rrt_element.text
+                                    # TODO: find out if 'transformId' (introduced in examples in Jan 2020) or 'transformID'
+                                    if rrt_element.tag == 'transformId' or rrt_element.tag == 'transformID':
+                                        transform.transform_id = rrt_element.text
                             self.aces_metadata_file.pipeline.output_transforms.append(transform)
 
     def log_info(self):
@@ -152,33 +211,61 @@ class AmfFileReader:
             logger.info("  modificationDateTime: {0}".format(self.aces_metadata_file.info.modification_date_time))
 
             for transform in self.aces_metadata_file.pipeline.input_transforms:
-                logger.info("                  {0}: {1} ({2})".format(transform.type, transform.transform_id, transform.description))
+                logger.info("                   {0}: {1} ({2})".format(transform.type,
+                                                                       #transform.transform_id,
+                                                                       transform.short_transform_id(),
+                                                                       transform.description))
             for transform in self.aces_metadata_file.pipeline.look_transforms:
-                logger.info("                  {0}: {1} ({2})".format(transform.type, transform.transform_id, transform.description))
+                logger.info("                   {0}: {1} ({2})".format(transform.type,
+                                                                       #transform.transform_id,
+                                                                       transform.short_transform_id(),
+                                                                       transform.description))
             for transform in self.aces_metadata_file.pipeline.output_transforms:
-                logger.info("                  {0}: {1} ({2})".format(transform.type, transform.transform_id, transform.description))
+                logger.info("                   {0}: {1} ({2})".format(transform.type,
+                                                                       #transform.transform_id,
+                                                                       transform.short_transform_id(),
+                                                                       transform.description))
 
 
     def log_render(self, ctl_transforms, ctl_root_path):
+
+        self.aces_metadata_file.pipeline.resolve_relative_paths(ctl_transforms)
+        logger.info("\n# -- start of script --\n")
         logger.info("# {0}".format(self.filepath))
         logger.info("# created by {0} {1}".format(amfutil_toolname_string, amfutil_toolversion_string))
         logger.info("# transforms:")
 
         for transform in self.aces_metadata_file.pipeline.input_transforms:
-            logger.info("#   {0}: {1} ({2})".format(transform.type, transform.transform_id, transform.description))
+            logger.info("#   {0}: {1} ({2})".format(transform.type,
+                                                    transform.short_transform_id(),
+                                                    transform.description))
         for transform in self.aces_metadata_file.pipeline.look_transforms:
-            logger.info("#   {0}: {1} ({2})".format(transform.type, transform.transform_id, transform.description))
+            logger.info("#   {0}: {1} ({2})".format(transform.type,
+                                                    transform.short_transform_id(),
+                                                    transform.description))
         for transform in self.aces_metadata_file.pipeline.output_transforms:
-            logger.info("#   {0}: {1} ({2})".format(transform.type, transform.transform_id, transform.description))
+            logger.info("#   {0}: {1} ({2})".format(transform.type,
+                                                    transform.short_transform_id(),
+                                                    transform.description))
 
         logger.info("\nCTLRENDER=`which ctlrender`\n")
         logger.info("export CTL_MODULE_PATH=\"{0}/utilities/\"\n".format(ctl_root_path))
 
         logger.info("$CTLRENDER \\")
+
+        for transform in self.aces_metadata_file.pipeline.input_transforms:
+            self.log_transform(transform, ctl_root_path)
+
         for transform in self.aces_metadata_file.pipeline.output_transforms:
-            logger.info("    -ctl {0}/{1} \\".format(
-                ctl_root_path,
-                ctl_transforms.relative_path_for_transform_id(transform.transform_id)))
+            self.log_transform(transform, ctl_root_path)
+
         logger.info("     -force \\")
         logger.info("     path/to/input-file.tiff \\")
         logger.info("     path/to/output-file.tiff")
+        logger.info("\n# -- end of script --\n")
+
+    def log_transform(self, transform, ctl_root_path):
+        if transform.applied is True:
+            logger.info("     # skipping {0} (applied=\"true\")".format(transform.short_transform_id()))
+        else:
+            logger.info("     -ctl {0}/{1} \\".format(ctl_root_path, transform.relative_path))
