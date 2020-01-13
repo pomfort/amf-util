@@ -233,7 +233,8 @@ class AmfFileReader:
     def log_render(self, ctl_transforms, ctl_root_path):
 
         self.aces_metadata_file.pipeline.resolve_relative_paths(ctl_transforms)
-        logger.info("\n# -- start of script --\n")
+        logger.info("#!/bin/bash")
+        logger.info("")
         logger.info("# {0}".format(self.filepath))
         logger.info("# created by {0} {1}".format(amfutil_toolname_string, amfutil_toolversion_string))
         logger.info("# transforms:")
@@ -280,7 +281,7 @@ class AmfFileReader:
             if transform.applied == True:
                 self.log_transform_for_render(transform, ctl_root_path)
 
-        logger.info("\n# -- end of script --\n")
+        #logger.info("\n# -- end of script --\n")
 
 
     def log_transform_for_render(self, transform, ctl_root_path):
