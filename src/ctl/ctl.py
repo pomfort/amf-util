@@ -24,6 +24,12 @@ class Transforms:
 				return ctl.relative_path
 		return None
 
+	def transform_id_for_relative_path(self, relative_path):
+		for ctl in self.ctls:
+			if ctl.relative_path == relative_path:
+		         return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', ctl.short_transform_id)
+		return None
+
 class CTL:
 	"""class for representing one CTL file
 	
@@ -36,6 +42,7 @@ class CTL:
 		"""init empty list"""
 		self.relative_path  = None
 		self.transform_id = None
+		self.short_transform_id = None
 
 
 class TransformsTraverser:
@@ -69,13 +76,15 @@ class TransformsTraverser:
 						transform_id = transform_id[17:]	# remove <ACEStransformID> at start
 						transform_id = transform_id[:-18]	# remove </ACEStransformID> at end
 						ctl.transform_id = transform_id
+						ctl.short_transform_id = re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', ctl.transform_id)
+
 						relative_path = os.path.relpath(filepath,
 													start=self.root_path)
 						ctl.relative_path = relative_path
 
 						prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc",
 									"InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT")
-						if not transform_id.startswith(prefixes):
+						if not ctl.short_transform_id.startswith(prefixes):
 							logger.error("SKIPPING: wrong prefix in {0}".format(filepath))
 						else:
 							self.transforms.ctls.append(ctl)
@@ -84,8 +93,8 @@ class TransformsTraverser:
 
 	def log_ctls(self):
 		for ctl in self.transforms.ctls:
-			logger.info("  found {0}: {1}".format(ctl.transform_id, ctl.relative_path))
+			logger.info("  found {0}: {1}".format(ctl.short_transform_id, ctl.relative_path))
 
 	def log_ctl_mappings(self):
 		for ctl in self.transforms.ctls:
-			logger.info("./{0}: {1}".format(ctl.relative_path, ctl.transform_id))
+			logger.info("./{0}: {1}".format(ctl.relative_path, ctl.short_transform_id))
