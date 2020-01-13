@@ -10,6 +10,7 @@ def amf_cli():
 
 amf_cli.add_command(src.info)
 amf_cli.add_command(src.render)
+amf_cli.add_command(src.ctls)
 
 if __name__ == '__main__':
     amf_cli()

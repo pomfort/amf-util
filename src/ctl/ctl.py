@@ -5,10 +5,6 @@ import click
 import os
 import re
 
-amfutil_toolname_string = 'amf-util'
-amfutil_toolversion_string = '0.0.1'
-
-
 class Transforms:
 	"""class for representing a list of transforms in the ACES repository
 
@@ -70,15 +66,20 @@ class TransformsTraverser:
 					result = re.search(r'<ACEStransformID>.*<\/ACEStransformID>', ctl_string)
 					if result is not None:
 						transform_id = result.group(0)
+						transform_id = transform_id[17:]	# remove <ACEStransformID> at start
+						transform_id = transform_id[:-18]	# remove </ACEStransformID> at end
+						ctl.transform_id = transform_id
+						relative_path = os.path.relpath(filepath,
+													start=self.root_path)
+						ctl.relative_path = relative_path
+						self.transforms.ctls.append(ctl)
 					else:
 						logger.error("no <ACEStransformID> found in {0}".format(filepath))
-
-					ctl.transform_id = transform_id.lstrip("<ACEStransformID>").rstrip("</ACEStransformID>")
-					relative_path = os.path.relpath(filepath,
-													start=self.root_path)
-					ctl.relative_path = relative_path
-					self.transforms.ctls.append(ctl)
 
 	def log_ctls(self):
 		for ctl in self.transforms.ctls:
 			logger.info("  found {0}: {1}".format(ctl.transform_id, ctl.relative_path))
+
+	def log_ctl_mappings(self):
+		for ctl in self.transforms.ctls:
+			logger.info("{0}: ./{1}".format(ctl.transform_id, ctl.relative_path))
