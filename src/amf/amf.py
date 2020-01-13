@@ -11,6 +11,7 @@ amfutil_toolversion_string = '0.0.2'
 
 # error codes
 amfutil_error_cannot_find_transform = 101
+amfutil_error_xsd_validation_failed = 201
 
 class AcesMetadataFile:
     """class for representing a list of media hashes, e.g. from an MHL file,

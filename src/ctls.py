@@ -16,5 +16,5 @@ def ctls(ctx, **kwargs):
 
     traverser = TransformsTraverser(ctx.ctl_root_path)
 
-    logger.info("Mappings:")
+    #logger.info("Mappings:")
     traverser.log_ctl_mappings()

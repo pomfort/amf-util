@@ -72,9 +72,15 @@ class TransformsTraverser:
 						relative_path = os.path.relpath(filepath,
 													start=self.root_path)
 						ctl.relative_path = relative_path
-						self.transforms.ctls.append(ctl)
+
+						prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc",
+									"InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT")
+						if not transform_id.startswith(prefixes):
+							logger.error("SKIPPING: wrong prefix in {0}".format(filepath))
+						else:
+							self.transforms.ctls.append(ctl)
 					else:
-						logger.error("no <ACEStransformID> found in {0}".format(filepath))
+						logger.error("ERROR: no <ACEStransformID> found in {0}".format(filepath))
 
 	def log_ctls(self):
 		for ctl in self.transforms.ctls:
@@ -82,4 +88,4 @@ class TransformsTraverser:
 
 	def log_ctl_mappings(self):
 		for ctl in self.transforms.ctls:
-			logger.info("{0}: ./{1}".format(ctl.transform_id, ctl.relative_path))
+			logger.info("./{0}: {1}".format(ctl.relative_path, ctl.transform_id))

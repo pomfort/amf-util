@@ -9,6 +9,7 @@ class Context(object):
     def __init__(self):
         self.sys_username = None
         self.filepath = None
+        self.schemapath = None
         self.rootpath = None
         self.compact = False
         self.ctl_root_path = None
@@ -22,6 +23,7 @@ class Context(object):
         :return: none
         """
         self.filepath = kwargs.get('filepath')
+        self.schemapath = kwargs.get('schemapath')
         self.rootpath = kwargs.get('rootpath')
         self.compact = kwargs.get('compact')
         self.ctl_root_path = kwargs.get('ctlrootpath')
