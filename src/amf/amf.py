@@ -251,23 +251,41 @@ class AmfFileReader:
                                                     transform.description))
 
         logger.info("\nCTLRENDER=`which ctlrender`\n")
+        logger.info("if [ -z \"$1\" ] || [ -z \"$2\" ]")
+        logger.info("then")
+        logger.info("     echo \"Usage: [script name] path/to/input-file.[tiff|dpx|exr] path/to/output-file.[tiff|dpx|exr]\"")
+        logger.info("     echo")
+        logger.info("     exit 200")
+        logger.info("fi\n")
+        logger.info("INPUTIMAGEPATH=$1")
+        logger.info("OUTPUTIMAGEPATH=$2\n")
         logger.info("export CTL_MODULE_PATH=\"{0}/utilities/\"\n".format(ctl_root_path))
 
         logger.info("$CTLRENDER \\")
+        for transform in self.aces_metadata_file.pipeline.input_transforms:
+            if transform.applied == False:
+                self.log_transform_for_render(transform, ctl_root_path)
+        for transform in self.aces_metadata_file.pipeline.output_transforms:
+            if transform.applied == False:
+                self.log_transform_for_render(transform, ctl_root_path)
+        logger.info("     -force \\")
+        logger.info("     \"$INPUTIMAGEPATH\" \\")
+        logger.info("     \"$OUTPUTIMAGEPATH\"\n")
 
         for transform in self.aces_metadata_file.pipeline.input_transforms:
-            self.log_transform_for_render(transform, ctl_root_path)
-
+            if transform.applied == True:
+                self.log_transform_for_render(transform, ctl_root_path)
         for transform in self.aces_metadata_file.pipeline.output_transforms:
-            self.log_transform_for_render(transform, ctl_root_path)
+            if transform.applied == True:
+                self.log_transform_for_render(transform, ctl_root_path)
 
-        logger.info("     -force \\")
-        logger.info("     path/to/input-file.tiff \\")
-        logger.info("     path/to/output-file.tiff")
         logger.info("\n# -- end of script --\n")
+
 
     def log_transform_for_render(self, transform, ctl_root_path):
         if transform.applied == True:
-            logger.info("     # skipping {0} [applied=\"true\"]".format(transform.short_transform_id()))
+            logger.info("# skipping {0} [applied=\"true\"]".format(transform.short_transform_id()))
         else:
             logger.info("     -ctl {0}/{1} \\".format(ctl_root_path, transform.relative_path))
+            logger.info("     -param1 aIn 1.0 \\")
+

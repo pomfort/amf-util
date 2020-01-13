@@ -8,8 +8,8 @@ import os
 
 
 @click.command()
-@click.argument('ctlrootpath', type=click.Path(exists=True, file_okay=False, readable=True))
 @click.argument('filepath', type=click.Path(exists=True))
+@click.argument('ctlrootpath', type=click.Path(exists=True, file_okay=False, readable=True))
 @click.option('--verbose', '-v', default=False, is_flag=True, help="Verbose output")
 @pass_context
 def render(ctx, **kwargs):
