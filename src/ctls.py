@@ -10,6 +10,7 @@ import os
 @click.command()
 @click.argument('ctlrootpath', type=click.Path(exists=True, file_okay=False, readable=True))
 @click.argument('relativectlpath', required=False)
+@click.option('--description', '-d', default=False, is_flag=True, help="Output description instead of transformId")
 
 @pass_context
 def ctls(ctx, **kwargs):
@@ -24,9 +25,18 @@ def ctls(ctx, **kwargs):
     else:
         #logger.info("... looking for {0}".format(ctx.relativectlpath))
         #traverser.log_ctl_mappings()
+
         transformId = traverser.transforms.transform_id_for_relative_path(ctx.relativectlpath)
-        if transformId is None:
-            logger.info("Couldn't find transformId for {0}".format(ctx.relativectlpath))
-            exit(203)
+        if ctx.description:
+            if transformId is None:
+                logger.info("Couldn't find transformId for {0}".format(ctx.relativectlpath))
+                exit(203)
+            else:
+                description = traverser.transforms.description_for_relative_path(ctx.relativectlpath)
+                logger.info(description)
         else:
-            logger.info(transformId)
+            if transformId is None:
+                logger.info("Couldn't find transformId for {0}".format(ctx.relativectlpath))
+                exit(203)
+            else:
+                logger.info(transformId)

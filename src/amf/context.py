@@ -15,6 +15,7 @@ class Context(object):
         self.ctl_root_path = None
         self.verbose = None
         self.relativectlpath = None
+        self.description = False
 
     def load_args(self, **kwargs):
         """
@@ -30,6 +31,7 @@ class Context(object):
         self.ctl_root_path = kwargs.get('ctlrootpath')
         self.verbose = kwargs.get('verbose')
         self.relativectlpath = kwargs.get('relativectlpath')
+        self.description = kwargs.get('description')
 
 
 """

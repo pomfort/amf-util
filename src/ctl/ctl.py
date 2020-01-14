@@ -30,6 +30,13 @@ class Transforms:
 		         return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', ctl.short_transform_id)
 		return None
 
+	def description_for_relative_path(self, relative_path):
+		for ctl in self.ctls:
+			if ctl.relative_path == relative_path:
+		         return ctl.description
+		return None
+
+
 class CTL:
 	"""class for representing one CTL file
 	
@@ -42,6 +49,7 @@ class CTL:
 		"""init empty list"""
 		self.relative_path  = None
 		self.transform_id = None
+		self.description = None
 		self.short_transform_id = None
 
 
@@ -70,26 +78,45 @@ class TransformsTraverser:
 					ctl = CTL()
 					ctl_file = open(filepath, 'r')
 					ctl_string = ctl_file.read()
-					result = re.search(r'<ACEStransformID>.*<\/ACEStransformID>', ctl_string)
-					if result is not None:
-						transform_id = result.group(0)
-						transform_id = transform_id[17:]	# remove <ACEStransformID> at start
-						transform_id = transform_id[:-18]	# remove </ACEStransformID> at end
+					transform_id = self.extract_tag(ctl_string, "ACEStransformID")
+
+					if transform_id is not None:
 						ctl.transform_id = transform_id
 						ctl.short_transform_id = re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', ctl.transform_id)
+
+						ctl.description = self.extract_tag(ctl_string, "ACESuserName")
 
 						relative_path = os.path.relpath(filepath,
 													start=self.root_path)
 						ctl.relative_path = relative_path
 
-						prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc",
+						spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc",
 									"InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT")
-						if not ctl.short_transform_id.startswith(prefixes):
-							logger.error("SKIPPING: wrong prefix in {0}".format(filepath))
+						if not ctl.short_transform_id.startswith(spec_prefixes):
+							ignore_prefixes = ("ACESlib", "ACESutil", "utilities")
+							if not ctl.short_transform_id.startswith(ignore_prefixes):
+								logger.error("SKIPPING: wrong prefix \"{0}\"in {1}".format(ctl.short_transform_id, filepath))
 						else:
 							self.transforms.ctls.append(ctl)
 					else:
 						logger.error("ERROR: no <ACEStransformID> found in {0}".format(filepath))
+
+	def extract_tag(self, ctl_string, tag_name):
+		result = None
+		if tag_name is "ACEStransformID":
+			found_string = re.search(r'<ACEStransformID>.*<\/ACEStransformID>', ctl_string)
+		elif tag_name is "ACESuserName":
+			found_string = re.search(r'<ACESuserName>.*<\/ACESuserName>', ctl_string)
+
+		if found_string is not None:
+			value = found_string.group(0)
+			#value = value[17:]  # remove <ACEStransformID> at start
+			#value = value[:-18]  # remove </ACEStransformID> at end
+			value = value[(len(tag_name)+2):]
+			value = value[:(-(len(tag_name)+3))]
+			result = value
+
+		return result
 
 	def log_ctls(self):
 		for ctl in self.transforms.ctls:
@@ -97,4 +124,4 @@ class TransformsTraverser:
 
 	def log_ctl_mappings(self):
 		for ctl in self.transforms.ctls:
-			logger.info("./{0}: {1}".format(ctl.relative_path, ctl.short_transform_id))
+			logger.info("{0}: {1} ({2})".format(ctl.relative_path, ctl.short_transform_id, ctl.description))
