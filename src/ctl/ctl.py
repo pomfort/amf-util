@@ -92,6 +92,8 @@ class TransformsTraverser:
 
 						spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc",
 									"InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT")
+						#spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc")
+
 						if not ctl.short_transform_id.startswith(spec_prefixes):
 							ignore_prefixes = ("ACESlib", "ACESutil", "utilities")
 							if not ctl.short_transform_id.startswith(ignore_prefixes):
