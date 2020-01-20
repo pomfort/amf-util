@@ -6,8 +6,8 @@
 # root folder auto config
 ROOTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
-DOALL=0
-DOTEST=1
+DOALL=1
+DOTEST=0
 
 NOWDATE="test-first" #`date +%Y-%m-%d-%H%M`
 #NOWDATE=`date +%Y-%m-%d-%H%M`
@@ -37,7 +37,7 @@ function render_frame
     SOURCENAME=$1
     AMFNAME=$2
 
-	SOURCEPATH="$SOURCEFOLDER/$SOURCENAME.dpx"
+	SOURCEPATH="$SOURCEFOLDER/$SOURCENAME.tiff"
 	AMFPATH="$AMFFOLDER/$AMFNAME.amf"
 	DESTINATIONPATH=$IMAGEPATH/${AMFNAME}__${SOURCENAME}.tiff
 	
@@ -57,6 +57,7 @@ function render_frame
 	echo 
     echo "  creating render script..."
     $AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH 2>>$ERRORPATH
+    #echo "$AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH 2>>$ERRORPATH"
 	chmod 755 $SCRIPTPATH
 
 	echo 
@@ -90,5 +91,10 @@ fi
 
 if [ $DOALL -eq 1 ]
 then
-	echo "DOALL: TBD"
+	echo "DOALL"
+
+	render_frame A003C001_190625_R24Y LogCEI800-Rec.709100nitsdim
+	render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
+	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.709100nitsdim
+	
 fi
