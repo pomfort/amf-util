@@ -9,8 +9,8 @@ ROOTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 DOALL=1
 DOTEST=0
 
-NOWDATE="RED-Test" #`date +%Y-%m-%d-%H%M`
-#NOWDATE=`date +%Y-%m-%d-%H%M`
+#NOWDATE="Test" #`date +%Y-%m-%d-%H%M`
+NOWDATE=`date +%Y-%m-%d-%H%M`
 
 
 ### preparation ###
