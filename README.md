@@ -9,7 +9,7 @@ With the AMF utility ``amf-util`` you can:
 
 * output information of an AMF file
 * creates a bash file that uses ``ctlrender`` to render the pipeline from an AMF file
-* validate an AMF against a given xsd file (for XML format validation)
+* scan a folder with CTLs and read transformIds from headers
 
 ## Repository content
 
@@ -60,7 +60,8 @@ Here are the steps to use and learn more about the ``amf-util.py`` tool:
 $ ./amf-util.py --help
 $ ./amf-util.py info --help
 $ ./amf-util.py render --help
-$ ./amf-util.py validate --help
+$ ./amf-util.py ctls --help
+
 ```
 
 ### The ``info`` command
@@ -182,32 +183,6 @@ $CTLRENDER \
 
 # skipping IDT.Acme.Camera.a1.v1 [applied="true"]
 ```
-
-### The ``validate`` command
-
-With the validate command you can validate an AMF file against a given XSD XML Schema file. It will print all issues with the AMF file.
-
-Example:
-
-```shell
-$ amf-util.py validate Material/amf_minimal.amf path/to/xsd/acesMetadataFile.xsd
-```
-
-If the file validates succesfully, the output look like this:
-
-```shell
-OK: Material/amf/example2_fix.amf
-```
-
-If there are issues found, the output looks like this:
-
-```shell
-ERROR: Material/amf/example2_fix.amf didn't validate against path/to/xsd/acesMetadataFile.xsd!
-Issues:
-Material/amf/example2_fix.amf:8:0:ERROR:SCHEMASV:SCHEMAV_CVC_COMPLEX_TYPE_2_3: Element '{urn:ampas:aces:amf:v1.0}amfInfo': Character content other than whitespace is not allowed because the content type is 'element-only'.
-```
-
-
 
 
 ## Licensing
