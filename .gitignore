@@ -10,3 +10,4 @@ env
 src/ctl/__pycache__
 Material/.DS_Store
 Images
+Material/mappings

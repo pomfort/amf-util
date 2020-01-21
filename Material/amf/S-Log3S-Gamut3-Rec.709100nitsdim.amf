@@ -2,8 +2,8 @@
 <aces:acesMetadataFile xmlns:aces="urn:ampas:aces:amf:v1.0" xmlns:cdl="urn:ASC:CDL:v1.01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ampas:aces:amf:v1.0 file:acesMetadataFile.xsd" version="1.0">
     <aces:amfInfo>
         <aces:dateTime>
-            <aces:creationDateTime>2020-01-20T13:48:52.15Z</aces:creationDateTime>
-            <aces:modificationDateTime>2020-01-20T13:48:52.15Z</aces:modificationDateTime>
+            <aces:creationDateTime>2020-01-21T09:30:29.55Z</aces:creationDateTime>
+            <aces:modificationDateTime>2020-01-21T09:30:29.55Z</aces:modificationDateTime>
         </aces:dateTime>
     </aces:amfInfo>
     <aces:clipId>
@@ -13,8 +13,8 @@
     <aces:pipeline>
         <aces:pipelineInfo>
             <aces:dateTime>
-                <aces:creationDateTime></aces:creationDateTime>
-                <aces:modificationDateTime></aces:modificationDateTime>
+                <aces:creationDateTime>2020-01-21T09:29:30.02Z</aces:creationDateTime>
+                <aces:modificationDateTime>2020-01-21T09:29:30.02Z</aces:modificationDateTime>
             </aces:dateTime>
             <aces:systemVersion>
                 <aces:majorVersion>1</aces:majorVersion>
@@ -22,19 +22,19 @@
                 <aces:patchVersion>0</aces:patchVersion>
             </aces:systemVersion>
         </aces:pipelineInfo>
-        <aces:inputTransform>
+        <aces:inputTransform applied="false">
             <aces:description>ACES 1.0 Input - Sony SLog3 SGamut3</aces:description>
             <aces:transformId>urn:ampas:aces:transformId:v1.5:IDT.Sony.SLog3_SGamut3.a1.v1</aces:transformId>
         </aces:inputTransform>
-        <aces:lookTransform applied="true">
+        <aces:lookTransform applied="false">
             <aces:lookTransformWorkingSpace>
                 <aces:toLookTransformWorkingSpace>
                     <aces:description>ACES2065-1 to ACEScct</aces:description>
                     <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.Academy.ACES_to_ACEScct.a1.0.3</aces:transformId>
                 </aces:toLookTransformWorkingSpace>
                 <aces:fromLookTransformWorkingSpace>
-                    <aces:description></aces:description>
-                    <aces:transformId>urn:ampas:aces:transformId:v1.5:(null)</aces:transformId>
+                    <aces:description>ACEScct to ACES2065-1</aces:description>
+                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.Academy.ACEScct_to_ACES.a1.0.3</aces:transformId>
                 </aces:fromLookTransformWorkingSpace>
             </aces:lookTransformWorkingSpace>
             <cdl:SOPNode>

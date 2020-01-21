@@ -9,7 +9,7 @@ ROOTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 DOALL=1
 DOTEST=0
 
-NOWDATE="test-first" #`date +%Y-%m-%d-%H%M`
+NOWDATE="RED-Test" #`date +%Y-%m-%d-%H%M`
 #NOWDATE=`date +%Y-%m-%d-%H%M`
 
 
@@ -19,7 +19,7 @@ SOURCEFOLDER="$ROOTFOLDER/Material/source"
 AMFFOLDER="$ROOTFOLDER/Material/amf"
 
 AMFUTIL="$ROOTFOLDER/amf-util.py"
-CTLROOTPATH="$ROOTFOLDER/../ACES-LUTs/aces-dev-1.1.0/transforms/ctl"
+CTLROOTPATH="$ROOTFOLDER/../ACES-LUTs/aces-dev-1.2.0/transforms/ctl"
 
 IMAGEPATH="$ROOTFOLDER/Images/Samples-$NOWDATE"
 
@@ -47,17 +47,17 @@ function render_frame
 	echo "         ctls: $CTLROOTPATH"
 
 	SCRIPTPATH=$IMAGEPATH/$AMFNAME.sh
-	ERRORPATH=$IMAGEPATH/logs/${AMFNAME}__${SOURCENAME}__log.txt
-	mkdir -p $IMAGEPATH/logs/
+	#ERRORPATH=$IMAGEPATH/logs/${AMFNAME}__${SOURCENAME}__log.txt
+	#mkdir -p $IMAGEPATH/logs/
 
 	echo 
     echo "  printing amf info..."
-    $AMFUTIL info $AMFPATH 2>$ERRORPATH
+    $AMFUTIL info $AMFPATH
 
 	echo 
     echo "  creating render script..."
-    $AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH 2>>$ERRORPATH
-    #echo "$AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH 2>>$ERRORPATH"
+    $AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH
+    echo "$AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH"
 	chmod 755 $SCRIPTPATH
 
 	echo 
@@ -82,8 +82,12 @@ function render_frame
 if [ $DOTEST -eq 1 ]
 then
 	echo "DOTEST"
-	render_frame ArriAlexa.LowKey.0090350 amf_minimal
+	#render_frame ArriAlexa.LowKey.0090350 amf_minimal
 	#render_frame ArriAlexa.Portrait.0177143 example2
+
+	render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
+	render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
+
 fi
 
 
@@ -94,7 +98,11 @@ then
 	echo "DOALL"
 
 	render_frame A003C001_190625_R24Y LogCEI800-Rec.709100nitsdim
+	render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
+	render_frame A003C001_190625_R24Y LogCEI800-Rec.2020ST20841000nits
+
 	render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
+
 	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.709100nitsdim
-	
+	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.2020ST20841000nits	
 fi

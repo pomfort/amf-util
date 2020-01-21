@@ -20,7 +20,7 @@ class Transforms:
 
 	def relative_path_for_transform_id(self, transform_id):
 		for ctl in self.ctls:
-			if ctl.transform_id == transform_id:
+			if ctl.short_transform_id == transform_id:
 				return ctl.relative_path
 		return None
 
@@ -90,6 +90,9 @@ class TransformsTraverser:
 													start=self.root_path)
 						ctl.relative_path = relative_path
 
+						if relative_path == "idt/vendorSupplied/pomfort/IDT.RED.log3G10.ctl":
+							logger.info("")
+
 						spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc",
 									"InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT")
 						#spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc")
@@ -101,7 +104,8 @@ class TransformsTraverser:
 						else:
 							self.transforms.ctls.append(ctl)
 					else:
-						logger.error("ERROR: no <ACEStransformID> found in {0}".format(filepath))
+						if ctx.verbose is True:
+							logger.error("ERROR: no <ACEStransformID> found in {0}".format(filepath))
 
 	def extract_tag(self, ctl_string, tag_name):
 		result = None

@@ -63,11 +63,10 @@ class Pipeline:
     def resolve_relative_paths(self, ctl_transforms):
         for transform in self.input_transforms:
             relative_path = ctl_transforms.relative_path_for_transform_id(transform.short_transform_id())
-            if relative_path is None and transform.applied == False:
-                logger.error("Cannot find a transform for inputTransform {0}!".format(transform.short_transform_id()))
-                exit(amfutil_error_cannot_find_transform)
-            else:
-                transform.relative_path = relative_path
+            if relative_path is None and transform.applied is False:
+                logger.error("WARNING: transformId \"{0}\" not found in CTLs".format(transform.short_transform_id()))
+                relative_path = "???"
+            transform.relative_path = relative_path
 
         for transform in self.look_transforms:
             relative_path = ctl_transforms.relative_path_for_transform_id(transform.short_transform_id())
@@ -159,7 +158,7 @@ class AmfFileReader:
                         transform = Transform()
                         if pipeline_element.tag == 'transformId':
                             transform.type = '???'
-                            transform.transform_id = output_element.text
+                            transform.transform_id = pipeline_element.text
                         else:
                             if pipeline_element.tag == 'inputTransform':
                                 transform.type = 'IDT'

@@ -2,8 +2,8 @@
 <aces:acesMetadataFile xmlns:aces="urn:ampas:aces:amf:v1.0" xmlns:cdl="urn:ASC:CDL:v1.01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ampas:aces:amf:v1.0 file:acesMetadataFile.xsd" version="1.0">
     <aces:amfInfo>
         <aces:dateTime>
-            <aces:creationDateTime>2020-01-21T09:30:29.53Z</aces:creationDateTime>
-            <aces:modificationDateTime>2020-01-21T09:30:29.53Z</aces:modificationDateTime>
+            <aces:creationDateTime>2020-01-21T09:30:29.52Z</aces:creationDateTime>
+            <aces:modificationDateTime>2020-01-21T09:30:29.52Z</aces:modificationDateTime>
         </aces:dateTime>
     </aces:amfInfo>
     <aces:clipId>
@@ -13,8 +13,8 @@
     <aces:pipeline>
         <aces:pipelineInfo>
             <aces:dateTime>
-                <aces:creationDateTime>2020-01-21T09:28:56.57Z</aces:creationDateTime>
-                <aces:modificationDateTime>2020-01-21T09:28:56.57Z</aces:modificationDateTime>
+                <aces:creationDateTime>2020-01-21T09:28:24.73Z</aces:creationDateTime>
+                <aces:modificationDateTime>2020-01-21T09:28:24.73Z</aces:modificationDateTime>
             </aces:dateTime>
             <aces:systemVersion>
                 <aces:majorVersion>1</aces:majorVersion>
@@ -52,8 +52,8 @@
                 <aces:transformId>urn:ampas:aces:transformId:v1.5:RRT.a1.0.3</aces:transformId>
             </aces:referenceRenderingTransform>
             <aces:outputDeviceTransform>
-                <aces:description>ACES 1.0 Output - Rec.709</aces:description>
-                <aces:transformId>urn:ampas:aces:transformId:v1.5:ODT.Academy.Rec709_100nits_dim.a1.0.3</aces:transformId>
+                <aces:description>ACES 1.0 Output - P3D65 (D60 simulation)</aces:description>
+                <aces:transformId>urn:ampas:aces:transformId:v1.5:ODT.Academy.P3D65_D60sim_48nits.a1.1.0</aces:transformId>
             </aces:outputDeviceTransform>
         </aces:outputTransform>
     </aces:pipeline>
