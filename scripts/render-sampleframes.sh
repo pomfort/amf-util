@@ -9,6 +9,8 @@ ROOTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 DOALL=1
 DOTEST=0
 
+DOZIP=1
+
 #NOWDATE="Test" #`date +%Y-%m-%d-%H%M`
 NOWDATE=`date +%Y-%m-%d-%H%M`
 
@@ -21,7 +23,11 @@ AMFFOLDER="$ROOTFOLDER/Material/amf"
 AMFUTIL="$ROOTFOLDER/amf-util.py"
 CTLROOTPATH="$ROOTFOLDER/../ACES-LUTs/aces-dev-1.2.0/transforms/ctl"
 
-IMAGEPATH="$ROOTFOLDER/Images/Samples-$NOWDATE"
+IMAGEFOLDER="Samples-$NOWDATE"
+IMAGEPATH="$ROOTFOLDER/Images/$IMAGEFOLDER"
+TEMPROOT="$ROOTFOLDER/tmp/"
+TEMPPATH="$TEMPROOT/$IMAGEFOLDER"
+
 
 mkdir -p $IMAGEPATH
 
@@ -39,14 +45,16 @@ function render_frame
 
 	SOURCEPATH="$SOURCEFOLDER/$SOURCENAME.tiff"
 	AMFPATH="$AMFFOLDER/$AMFNAME.amf"
-	DESTINATIONPATH=$IMAGEPATH/${AMFNAME}__${SOURCENAME}.tiff
+	DESTINATIONFILENAME=${AMFNAME}__${SOURCENAME}.tiff
+	DESTINATIONPATH=$IMAGEPATH/$DESTINATIONFILENAME
 	
 	echo "render_frame $SOURCENAME $AMFNAME"
 	#echo "  source: $SOURCEPATH"
 	#echo "     amf: $AMFPATH"
 	echo "         ctls: $CTLROOTPATH"
 
-	SCRIPTPATH=$IMAGEPATH/$AMFNAME.sh
+	SCRIPTFILENAME=$AMFNAME.sh
+	SCRIPTPATH=$IMAGEPATH/$SCRIPTFILENAME
 	#ERRORPATH=$IMAGEPATH/logs/${AMFNAME}__${SOURCENAME}__log.txt
 	#mkdir -p $IMAGEPATH/logs/
 
@@ -57,7 +65,7 @@ function render_frame
 	echo 
     echo "  creating render script..."
     $AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH
-    echo "$AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH"
+    #echo "$AMFUTIL render $AMFPATH $CTLROOTPATH > $SCRIPTPATH"
 	chmod 755 $SCRIPTPATH
 
 	echo 
@@ -66,13 +74,33 @@ function render_frame
     echo "    destination: $DESTINATIONPATH"
 	$SCRIPTPATH $SOURCEPATH $DESTINATIONPATH
 	
-    #echo "  copy source..."
-	#SOURCEDESTPATH=$IMAGEPATH/$SOURCEFILENAME
-    #if [ ! -f $SOURCEDESTPATH ]
-    #then
-	#    cp -rf $SOURCEPATH $SOURCEDESTPATH
-	#fi
+	if [ $DOZIP -eq 1 ]
+	then
+		mkdir -p $TEMPPATH/source-frames/
+		SOURCEDESTPATH=$TEMPPATH/source-frames/$SOURCEFILENAME
+	    if [ ! -f $SOURCEDESTPATH ]
+	    then
+		    echo "  copy source..."
+		    cp $SOURCEPATH $SOURCEDESTPATH
+		fi
 
+		mkdir -p $TEMPPATH/output-frames
+		OUTPUTDESTPATH=$TEMPPATH/output-frames/$DESTINATIONFILENAME
+	    if [ ! -f $OUTPUTDESTPATH ]
+	    then
+		    echo "  copy output..."
+		    cp $DESTINATIONPATH $OUTPUTDESTPATH
+		fi
+		
+		mkdir -p $TEMPPATH/scripts
+		SCRIPTDESTPATH=$TEMPPATH/scripts/$SCRIPTFILENAME
+	    if [ ! -f $SCRIPTDESTPATH ]
+	    then
+		    echo "  copy script..."
+		    cp $SCRIPTPATH $SCRIPTDESTPATH
+		fi
+	fi
+	
 	echo 
 }
 
@@ -82,12 +110,12 @@ function render_frame
 if [ $DOTEST -eq 1 ]
 then
 	echo "DOTEST"
-	#render_frame ArriAlexa.LowKey.0090350 amf_minimal
+	render_frame ArriAlexa.LowKey.0090350 amf_minimal
 	#render_frame ArriAlexa.Portrait.0177143 example2
 
-	render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
-	render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
-
+	#render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
+	#render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
+	
 fi
 
 
@@ -96,6 +124,34 @@ fi
 if [ $DOALL -eq 1 ]
 then
 	echo "DOALL"
+
+	# ACES sources (ARRI)
+	
+	render_frame ArriAlexa.HighKey.0101699 LogCEI800-Rec.709100nitsdim
+	render_frame ArriAlexa.HighKey.0101699 LogCEI800-P3D65-D60sim48nits
+	render_frame ArriAlexa.HighKey.0101699 LogCEI800-Rec.2020ST20841000nits
+
+	render_frame ArriAlexa.LowKey.0090350 LogCEI800-Rec.709100nitsdim
+	render_frame ArriAlexa.LowKey.0090350 LogCEI800-P3D65-D60sim48nits
+	render_frame ArriAlexa.LowKey.0090350 LogCEI800-Rec.2020ST20841000nits
+
+	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.709100nitsdim
+	render_frame ArriAlexa.LowLight.0117185 LogCEI800-P3D65-D60sim48nits
+	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.2020ST20841000nits
+
+	render_frame ArriAlexa.Portrait.0177143 LogCEI800-Rec.709100nitsdim
+	render_frame ArriAlexa.Portrait.0177143 LogCEI800-P3D65-D60sim48nits
+	render_frame ArriAlexa.Portrait.0177143 LogCEI800-Rec.2020ST20841000nits
+
+	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.709100nitsdim
+	render_frame ArriAlexa.StillLife.0181284 LogCEI800-P3D65-D60sim48nits
+	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.2020ST20841000nits
+	
+	# ACES sources (Sony F35)
+
+	# ...
+
+	# Netflix sources
 
 	render_frame A003C001_190625_R24Y LogCEI800-Rec.709100nitsdim
 	render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
@@ -106,3 +162,16 @@ then
 	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.709100nitsdim
 	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.2020ST20841000nits	
 fi
+
+if [ $DOZIP -eq 1 ]
+then
+	echo "DOZIP"
+	
+	CURRENTPATH=`pwd`
+	cd $TEMPROOT
+	zip -r "${IMAGEFOLDER}.zip" $TEMPPATH
+	cd $CURRENTPATH
+
+	#rm -rf $TEMPROOT
+fi
+	

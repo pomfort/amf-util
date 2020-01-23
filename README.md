@@ -3,7 +3,14 @@
 
 This is an utility with several commands for aiding the work of the AMF Imp VWG.
 
-## Features
+## Current reference frames
+
+Due to high volume the created reference files are not part of this repository. If you want do download a set of the latest reference files, use the following link:
+
+* [Samples-2020-01-23-1713.zip](https://download.pomfort.com/aces-amf/Samples-2020-01-23-1713.zip) (338.5 MB)
+
+
+## Features of amf-util
 
 With the AMF utility ``amf-util`` you can:
 
