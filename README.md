@@ -2,19 +2,19 @@
 >
 > Due to large file sizes the created reference files are not part of this repository. If you want do download a set of the latest reference files, use the following link:
 >
-> * [Samples-2020-01-23-1713.zip](https://download.pomfort.com/aces-amf/Samples-2020-01-23-1713.zip): 21 reference images, 8 source images, 6 ctlrender creation scripts, 338.5 MB)
+> * [Samples-2020-01-23-1713.zip](https://download.pomfort.com/aces-amf/Samples-2020-01-23-1713.zip): 21 reference images, 8 source images, 6 ctlrender creation scripts, (338.5 MB)
 
 
 # ACES AMF utility
 
-This is an utility with several commands for aiding the work of the AMF Imp VWG.
+This is a command line utility with several commands for aiding the work of the AMF Imp VWG.
 
 ## Features of amf-util
 
 With the AMF utility ``amf-util`` you can:
 
 * output information of an AMF file
-* creates a bash file that uses ``ctlrender`` to render the pipeline from an AMF file
+* create a bash file that uses ``ctlrender`` to render the pipeline from an AMF file
 * scan a folder with CTLs and read transformIds from headers
 
 ## Repository content
@@ -23,8 +23,9 @@ The ACES AMF util repository consists of:
 
 * ``README.md`` – Overview of features, installation, and usage of the utility
 * ``amf-util.py`` –  A command line tool for reading and processing AMF files, written in Python 3
+* ``src/`` – Additional source code for `amf-util.py`
 * ``Material/`` – Sample AMF files
-
+* ``scripts/`` – Shell scripts, e.g. for batch creating reference images with the help of `amf-util.py`
 
 ## Getting started
 
