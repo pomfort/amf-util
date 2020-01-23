@@ -169,7 +169,7 @@ then
 	
 	CURRENTPATH=`pwd`
 	cd $TEMPROOT
-	zip -r "${IMAGEFOLDER}.zip" $TEMPPATH
+	zip -r "${IMAGEFOLDER}.zip" $IMAGEFOLDER
 	cd $CURRENTPATH
 
 	#rm -rf $TEMPROOT

@@ -1,14 +1,13 @@
+> #### Current reference frames
+>
+> Due to large file sizes the created reference files are not part of this repository. If you want do download a set of the latest reference files, use the following link:
+>
+> * [Samples-2020-01-23-1713.zip](https://download.pomfort.com/aces-amf/Samples-2020-01-23-1713.zip): 21 reference images, 8 source images, 6 ctlrender creation scripts, 338.5 MB)
+
 
 # ACES AMF utility
 
 This is an utility with several commands for aiding the work of the AMF Imp VWG.
-
-## Current reference frames
-
-Due to high volume the created reference files are not part of this repository. If you want do download a set of the latest reference files, use the following link:
-
-* [Samples-2020-01-23-1713.zip](https://download.pomfort.com/aces-amf/Samples-2020-01-23-1713.zip) (338.5 MB)
-
 
 ## Features of amf-util
 
