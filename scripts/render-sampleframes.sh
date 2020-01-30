@@ -83,6 +83,12 @@ function render_frame
 		    echo "  copy source..."
 		    cp $SOURCEPATH $SOURCEDESTPATH
 		fi
+		READMEDESTPATH=$TEMPPATH/source-frames/README.md
+	    if [ ! -f $READMEDESTPATH ]
+	    then
+		    echo "  copy readme..."
+		    cp "${SOURCEFOLDER}/README.md" $READMEDESTPATH
+		fi
 
 		mkdir -p $TEMPPATH/amf
 		AMFDESTPATH=$TEMPPATH/amf/$AMFNAME.amf
