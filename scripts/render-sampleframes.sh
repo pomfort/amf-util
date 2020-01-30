@@ -84,6 +84,14 @@ function render_frame
 		    cp $SOURCEPATH $SOURCEDESTPATH
 		fi
 
+		mkdir -p $TEMPPATH/amf
+		AMFDESTPATH=$TEMPPATH/amf/$AMFNAME.amf
+	    if [ ! -f $AMFDESTPATH ]
+	    then
+		    echo "  copy amf..."
+		    cp $AMFPATH $AMFDESTPATH
+		fi
+
 		mkdir -p $TEMPPATH/output-frames
 		OUTPUTDESTPATH=$TEMPPATH/output-frames/$DESTINATIONFILENAME
 	    if [ ! -f $OUTPUTDESTPATH ]
@@ -127,25 +135,25 @@ then
 
 	# ACES sources (ARRI)
 	
-	render_frame ArriAlexa.HighKey.0101699 LogCEI800-Rec.709100nitsdim
-	render_frame ArriAlexa.HighKey.0101699 LogCEI800-P3D65-D60sim48nits
-	render_frame ArriAlexa.HighKey.0101699 LogCEI800-Rec.2020ST20841000nits
-
-	render_frame ArriAlexa.LowKey.0090350 LogCEI800-Rec.709100nitsdim
-	render_frame ArriAlexa.LowKey.0090350 LogCEI800-P3D65-D60sim48nits
-	render_frame ArriAlexa.LowKey.0090350 LogCEI800-Rec.2020ST20841000nits
-
-	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.709100nitsdim
-	render_frame ArriAlexa.LowLight.0117185 LogCEI800-P3D65-D60sim48nits
-	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.2020ST20841000nits
-
-	render_frame ArriAlexa.Portrait.0177143 LogCEI800-Rec.709100nitsdim
-	render_frame ArriAlexa.Portrait.0177143 LogCEI800-P3D65-D60sim48nits
-	render_frame ArriAlexa.Portrait.0177143 LogCEI800-Rec.2020ST20841000nits
-
-	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.709100nitsdim
-	render_frame ArriAlexa.StillLife.0181284 LogCEI800-P3D65-D60sim48nits
-	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.2020ST20841000nits
+#	render_frame ArriAlexa.HighKey.0101699 LogCEI800-Rec.709100nitsdim
+#	render_frame ArriAlexa.HighKey.0101699 LogCEI800-P3D65-D60sim48nits
+#	render_frame ArriAlexa.HighKey.0101699 LogCEI800-Rec.2020ST20841000nits
+#
+#	render_frame ArriAlexa.LowKey.0090350 LogCEI800-Rec.709100nitsdim
+#	render_frame ArriAlexa.LowKey.0090350 LogCEI800-P3D65-D60sim48nits
+#	render_frame ArriAlexa.LowKey.0090350 LogCEI800-Rec.2020ST20841000nits
+#
+#	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.709100nitsdim
+#	render_frame ArriAlexa.LowLight.0117185 LogCEI800-P3D65-D60sim48nits
+#	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.2020ST20841000nits
+#
+#	render_frame ArriAlexa.Portrait.0177143 LogCEI800-Rec.709100nitsdim
+#	render_frame ArriAlexa.Portrait.0177143 LogCEI800-P3D65-D60sim48nits
+#	render_frame ArriAlexa.Portrait.0177143 LogCEI800-Rec.2020ST20841000nits
+#
+#	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.709100nitsdim
+#	render_frame ArriAlexa.StillLife.0181284 LogCEI800-P3D65-D60sim48nits
+#	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.2020ST20841000nits
 	
 	# ACES sources (Sony F35)
 
