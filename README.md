@@ -2,7 +2,7 @@
 >
 > Due to large file sizes the created reference files are not part of this repository. If you want do download a set of the latest reference files, use the following link:
 >
-> * [Samples-2020-01-30-2009.zip](https://download.pomfort.com/aces-amf/Samples-2020-01-30-2009.zip) (338.5 MB): 
+> * [Samples-2020-01-30-2009.zip](https://download.pomfort.com/aces-amf/Samples-2020-01-30-2009.zip) (39.3 MB): 
 >    * 3 source images
 >    * 5 AMF files
 >    * 6 reference images
