@@ -1,5 +1,13 @@
+"""
+__author__ = "Patrick Renner"
+__copyright__ = "Copyright 2020, Pomfort GmbH"
+
+__license__ = "MIT"
+__maintainer__ = "Patrick Renner"
+__email__ = "opensource@pomfort.com"
+"""
+
 from src.util import logger
-from src.ctl import ctl
 from lxml import etree
 from src.util.xml import strip_ns_prefix
 import click
@@ -7,11 +15,11 @@ import os
 import re
 
 amfutil_toolname_string = 'amf-util'
-amfutil_toolversion_string = '0.0.2'
+amfutil_toolversion_string = '0.0.3'
 
 # error codes
 amfutil_error_cannot_find_transform = 101
-amfutil_error_xsd_validation_failed = 201
+
 
 class AcesMetadataFile:
     """class for representing a list of media hashes, e.g. from an MHL file,
@@ -210,8 +218,6 @@ class AmfFileReader:
             logger.info("      creationDateTime: {0}".format(self.aces_metadata_file.info.creation_date_time))
             logger.info("  modificationDateTime: {0}".format(self.aces_metadata_file.info.modification_date_time))
 
-            applied_string = ""
-
             for transform in self.aces_metadata_file.pipeline.input_transforms:
                 self.log_transform_for_info(transform)
             for transform in self.aces_metadata_file.pipeline.look_transforms:
@@ -221,7 +227,7 @@ class AmfFileReader:
 
     def log_transform_for_info(self, transform):
         applied_string = ""
-        if transform.applied == True:
+        if transform.applied is True:
             applied_string = " [applied=\"true\"]"
         logger.info("                   {0}: {1}{2} ({3})".format(transform.type,
                                                                   # transform.transform_id,
@@ -264,29 +270,28 @@ class AmfFileReader:
 
         logger.info("$CTLRENDER \\")
         for transform in self.aces_metadata_file.pipeline.input_transforms:
-            if transform.applied == False:
+            if transform.applied is False:
                 self.log_transform_for_render(transform, ctl_root_path)
         for transform in self.aces_metadata_file.pipeline.output_transforms:
-            if transform.applied == False:
+            if transform.applied is False:
                 self.log_transform_for_render(transform, ctl_root_path)
         logger.info("     -force \\")
         logger.info("     \"$INPUTIMAGEPATH\" \\")
         logger.info("     \"$OUTPUTIMAGEPATH\"\n")
 
         for transform in self.aces_metadata_file.pipeline.input_transforms:
-            if transform.applied == True:
+            if transform.applied is True:
                 self.log_transform_for_render(transform, ctl_root_path)
         for transform in self.aces_metadata_file.pipeline.output_transforms:
-            if transform.applied == True:
+            if transform.applied is True:
                 self.log_transform_for_render(transform, ctl_root_path)
 
-        #logger.info("\n# -- end of script --\n")
+        # logger.info("\n# -- end of script --\n")
 
 
     def log_transform_for_render(self, transform, ctl_root_path):
-        if transform.applied == True:
+        if transform.applied is True:
             logger.info("# skipping {0} [applied=\"true\"]".format(transform.short_transform_id()))
         else:
             logger.info("     -ctl {0}/{1} \\".format(ctl_root_path, transform.relative_path))
             logger.info("     -param1 aIn 1.0 \\")
-

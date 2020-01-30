@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+"""
+__author__ = "Patrick Renner"
+__copyright__ = "Copyright 2020, Pomfort GmbH"
+
+__license__ = "MIT"
+__maintainer__ = "Patrick Renner"
+__email__ = "opensource@pomfort.com"
+"""
+
 import click
 import src
 
@@ -11,7 +20,6 @@ def amf_cli():
 amf_cli.add_command(src.info)
 amf_cli.add_command(src.render)
 amf_cli.add_command(src.ctls)
-#amf_cli.add_command(src.validate)
 
 if __name__ == '__main__':
     amf_cli()

@@ -1,3 +1,12 @@
+"""
+__author__ = "Patrick Renner"
+__copyright__ = "Copyright 2020, Pomfort GmbH"
+
+__license__ = "MIT"
+__maintainer__ = "Patrick Renner"
+__email__ = "opensource@pomfort.com"
+"""
+
 from src.amf import pass_context
 from src.util import logger
 

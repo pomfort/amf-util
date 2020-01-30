@@ -1,9 +1,17 @@
+"""
+__author__ = "Patrick Renner"
+__copyright__ = "Copyright 2020, Pomfort GmbH"
+
+__license__ = "MIT"
+__maintainer__ = "Patrick Renner"
+__email__ = "opensource@pomfort.com"
+"""
+
 from src.util import logger
-from lxml import etree
-from src.util.xml import strip_ns_prefix
 import click
 import os
 import re
+
 
 class Transforms:
 	"""class for representing a list of transforms in the ACES repository
@@ -27,13 +35,13 @@ class Transforms:
 	def transform_id_for_relative_path(self, relative_path):
 		for ctl in self.ctls:
 			if ctl.relative_path == relative_path:
-		         return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', ctl.short_transform_id)
+				return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', ctl.short_transform_id)
 		return None
 
 	def description_for_relative_path(self, relative_path):
 		for ctl in self.ctls:
 			if ctl.relative_path == relative_path:
-		         return ctl.description
+				return ctl.description
 		return None
 
 
@@ -47,7 +55,7 @@ class CTL:
 
 	def __init__(self):
 		"""init empty list"""
-		self.relative_path  = None
+		self.relative_path = None
 		self.transform_id = None
 		self.description = None
 		self.short_transform_id = None
@@ -74,7 +82,7 @@ class TransformsTraverser:
 		for root, directories, filenames in os.walk(self.root_path, topdown=True):
 			for filename in sorted(filenames):
 				filepath = os.path.join(root, filename)
-				if (filepath.endswith(".ctl")):
+				if filepath.endswith(".ctl"):
 					ctl = CTL()
 					ctl_file = open(filepath, 'r')
 					ctl_string = ctl_file.read()
@@ -86,16 +94,16 @@ class TransformsTraverser:
 
 						ctl.description = self.extract_tag(ctl_string, "ACESuserName")
 
-						relative_path = os.path.relpath(filepath,
-													start=self.root_path)
+						relative_path = os.path.relpath(filepath, start=self.root_path)
 						ctl.relative_path = relative_path
 
 						if relative_path == "idt/vendorSupplied/pomfort/IDT.RED.log3G10.ctl":
 							logger.info("")
 
+						# FIXME: this is still under discussion
 						spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc",
-									"InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT")
-						#spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc")
+										 "InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT")
+						# spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc")
 
 						if not ctl.short_transform_id.startswith(spec_prefixes):
 							ignore_prefixes = ("ACESlib", "ACESutil", "utilities")
@@ -109,15 +117,17 @@ class TransformsTraverser:
 
 	def extract_tag(self, ctl_string, tag_name):
 		result = None
+		found_string = None
+
 		if tag_name is "ACEStransformID":
-			found_string = re.search(r'<ACEStransformID>.*<\/ACEStransformID>', ctl_string)
+			found_string = re.search(r'<ACEStransformID>.*</ACEStransformID>', ctl_string)
 		elif tag_name is "ACESuserName":
-			found_string = re.search(r'<ACESuserName>.*<\/ACESuserName>', ctl_string)
+			found_string = re.search(r'<ACESuserName>.*</ACESuserName>', ctl_string)
 
 		if found_string is not None:
 			value = found_string.group(0)
-			#value = value[17:]  # remove <ACEStransformID> at start
-			#value = value[:-18]  # remove </ACEStransformID> at end
+			# value = value[17:]  # remove <ACEStransformID> at start
+			# value = value[:-18]  # remove </ACEStransformID> at end
 			value = value[(len(tag_name)+2):]
 			value = value[:(-(len(tag_name)+3))]
 			result = value
