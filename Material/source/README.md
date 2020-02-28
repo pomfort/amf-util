@@ -5,6 +5,11 @@
 	* ARRI Alexa LF
 	* source: Netflix, via AMF Imp VWG
 
+* OpenEXR (ACES): `A003C001_190625_R24Y.exr`
+	* created from `A003C001_190625_R24Y.tiff` (with `IDT.ARRI.Alexa-v3-logC-EI800.a1.v2`)
+	* ARRI Alexa LF
+	* source: Netflix, via AMF Imp VWG
+
 * Sony (S-Log3 S-Gamut3): `A004C002_190619J4.tiff`
 	* created from `A004C002_190619J4.MXF` (X-AVC Intra, default settings in Sony RAW Viewer)
 	* source: Netflix, via AMF Imp VWG
