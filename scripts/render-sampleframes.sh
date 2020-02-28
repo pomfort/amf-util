@@ -7,11 +7,12 @@
 ROOTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
 # DOALL=1	# not needed any more, if DOTEST is 1, no full set is done
-DOTEST=1
+DOTEST=0
 
 DOZIP=1
 
-NOWDATE="Test-EXR" # DOALL automatically uses `date +%Y-%m-%d-%H%M`
+#NOWDATE="Test-EXR"
+NOWDATE=`date +%Y-%m-%d-%H%M`
 
 
 ### preparation ###
@@ -148,8 +149,6 @@ fi
 if [ $DOTEST -eq 0 ]
 then
 	echo "DOALL"
-
-	NOWDATE=`date +%Y-%m-%d-%H%M`
 
 	# ACES sources (ARRI)
 	
