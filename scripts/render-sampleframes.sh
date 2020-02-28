@@ -6,12 +6,12 @@
 # root folder auto config
 ROOTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
-DOALL=1
+# DOALL=1	# not needed any more, if DOTEST is 1, no full set is done
 DOTEST=0
 
 DOZIP=1
 
-#NOWDATE="Test" #`date +%Y-%m-%d-%H%M`
+#NOWDATE="Test-EXR"
 NOWDATE=`date +%Y-%m-%d-%H%M`
 
 
@@ -42,13 +42,19 @@ function render_frame
 {
     SOURCENAME=$1
     AMFNAME=$2
+	FORMAT=$3
+	
+	if [ -z "$FORMAT" ]
+	then
+		FORMAT="tiff"
+	fi
 
-	SOURCEPATH="$SOURCEFOLDER/$SOURCENAME.tiff"
+	SOURCEPATH="$SOURCEFOLDER/$SOURCENAME.$FORMAT"
 	AMFPATH="$AMFFOLDER/$AMFNAME.amf"
 	DESTINATIONFILENAME=${AMFNAME}__${SOURCENAME}.tiff
 	DESTINATIONPATH=$IMAGEPATH/$DESTINATIONFILENAME
 	
-	echo "render_frame $SOURCENAME $AMFNAME"
+	echo "render_frame $SOURCENAME $AMFNAME $FORMAT"
 	#echo "  source: $SOURCEPATH"
 	#echo "     amf: $AMFPATH"
 	echo "         ctls: $CTLROOTPATH"
@@ -124,18 +130,23 @@ function render_frame
 if [ $DOTEST -eq 1 ]
 then
 	echo "DOTEST"
-	render_frame ArriAlexa.LowKey.0090350 amf_minimal
+	#render_frame ArriAlexa.LowKey.0090350 amf_minimal
 	#render_frame ArriAlexa.Portrait.0177143 example2
+
+	#render_frame A003C001_190625_R24Y LogCEI800-Rec.709100nitsdim__skip-IDT exr
+	#render_frame A003C001_190625_R24Y LogCEI800-Rec.709100nitsdim
 
 	#render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
 	#render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
 	
+	render_frame A003C001_190625_R24Y__Rec709 Rec.709-Rec.709100nitsdim
+
 fi
 
 
 ### ALL
 
-if [ $DOALL -eq 1 ]
+if [ $DOTEST -eq 0 ]
 then
 	echo "DOALL"
 
@@ -161,7 +172,7 @@ then
 #	render_frame ArriAlexa.StillLife.0181284 LogCEI800-P3D65-D60sim48nits
 #	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.2020ST20841000nits
 	
-	# ACES sources (Sony F35)
+	# ACES sources (Sony F35?)
 
 	# ...
 
@@ -171,13 +182,28 @@ then
 	render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
 	render_frame A003C001_190625_R24Y LogCEI800-Rec.2020ST20841000nits
 
-	render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
+	# render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
 
 	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.709100nitsdim
 	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.2020ST20841000nits	
+	
+	# Rec.709
+
+	render_frame A003C001_190625_R24Y__Rec709 Rec.709-Rec.709100nitsdim
+
+	# OpenEXR in ACES AP0 for VFX	
+	
+	render_frame A003C001_190625_R24Y__ACES LogCEI800-Rec.709100nitsdim__skip-IDT exr
+	
+
+	# sRGB
+	# ADSM ? 
+	# DCDM (16-bit tiff) ? DCP ?
+	
+	
 fi
 
-if [ $DOZIP -eq 1 ]
+if [ $DOZIP -eq 1 ] && [ $DOTEST -eq 0 ]
 then
 	echo "DOZIP"
 	

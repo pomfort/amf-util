@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<aces:acesMetadataFile xmlns:aces="urn:ampas:aces:amf:v1.0" xmlns:cdl="urn:ASC:CDL:v1.01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ampas:aces:amf:v1.0 file:acesMetadataFile.xsd" version="1.0">
+    <aces:amfInfo>
+        <aces:dateTime>
+            <aces:creationDateTime>2020-01-21T09:30:29.53Z</aces:creationDateTime>
+            <aces:modificationDateTime>2020-01-21T09:30:29.53Z</aces:modificationDateTime>
+        </aces:dateTime>
+    </aces:amfInfo>
+    <aces:clipId>
+        <aces:clipName></aces:clipName>
+        <aces:file></aces:file>
+    </aces:clipId>
+    <aces:pipeline>
+        <aces:pipelineInfo>
+            <aces:dateTime>
+                <aces:creationDateTime>2020-01-21T09:28:56.57Z</aces:creationDateTime>
+                <aces:modificationDateTime>2020-01-21T09:28:56.57Z</aces:modificationDateTime>
+            </aces:dateTime>
+            <aces:systemVersion>
+                <aces:majorVersion>1</aces:majorVersion>
+                <aces:minorVersion>2</aces:minorVersion>
+                <aces:patchVersion>0</aces:patchVersion>
+            </aces:systemVersion>
+        </aces:pipelineInfo>
+        <aces:inputTransform applied="true">
+            <aces:description>ACES 1.0 Input - ARRI V3 LogC (EI800)</aces:description>
+            <aces:transformId>urn:ampas:aces:transformId:v1.5:IDT.ARRI.Alexa-v3-logC-EI800.a1.v2</aces:transformId>
+        </aces:inputTransform>
+        <aces:lookTransform applied="false">
+            <aces:lookTransformWorkingSpace>
+                <aces:toLookTransformWorkingSpace>
+                    <aces:description>ACES2065-1 to ACEScct</aces:description>
+                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.Academy.ACES_to_ACEScct.a1.0.3</aces:transformId>
+                </aces:toLookTransformWorkingSpace>
+                <aces:fromLookTransformWorkingSpace>
+                    <aces:description>ACEScct to ACES2065-1</aces:description>
+                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.Academy.ACEScct_to_ACES.a1.0.3</aces:transformId>
+                </aces:fromLookTransformWorkingSpace>
+            </aces:lookTransformWorkingSpace>
+            <cdl:SOPNode>
+                <cdl:Slope>1 1 1</cdl:Slope>
+                <cdl:Offset>0 0 0</cdl:Offset>
+                <cdl:Power>1 1 1</cdl:Power>
+            </cdl:SOPNode>
+            <cdl:SatNode>
+                <cdl:Saturation>1</cdl:Saturation>
+            </cdl:SatNode>
+        </aces:lookTransform>
+        <aces:outputTransform>
+            <aces:referenceRenderingTransform>
+                <aces:description>ACES 1.0 - RRT</aces:description>
+                <aces:transformId>urn:ampas:aces:transformId:v1.5:RRT.a1.0.3</aces:transformId>
+            </aces:referenceRenderingTransform>
+            <aces:outputDeviceTransform>
+                <aces:description>ACES 1.0 Output - Rec.709</aces:description>
+                <aces:transformId>urn:ampas:aces:transformId:v1.5:ODT.Academy.Rec709_100nits_dim.a1.0.3</aces:transformId>
+            </aces:outputDeviceTransform>
+        </aces:outputTransform>
+    </aces:pipeline>
+</aces:acesMetadataFile>
