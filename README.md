@@ -2,11 +2,11 @@
 >
 > Due to large file sizes the created reference files are not part of this repository. If you want do download a set of the latest reference files, use the following link:
 >
-> * [Samples-2020-02-07-1550.zip](https://download.pomfort.com/aces-amf/Samples-2020-02-07-1550.zip) (102.9 MB): 
->    * 3 source images
->    * 5 AMF files
->    * 6 reference images
->    * 6 ctlrender creation scripts
+> * [Samples-2020-02-28-2034.zip](https://download.pomfort.com/aces-amf/Samples-2020-02-28-2034.zip) (128.2 MB): 
+>    * 4 source images
+>    * 7 AMF files
+>    * 7 reference images
+>    * 7 ctlrender creation scripts
 
 
 # ACES AMF utility
