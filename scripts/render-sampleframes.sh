@@ -11,7 +11,8 @@ DOTEST=0
 
 DOZIP=1
 
-NOWDATE="Test-EXR" # DOALL automatically uses `date +%Y-%m-%d-%H%M`
+#NOWDATE="Test-EXR"
+NOWDATE=`date +%Y-%m-%d-%H%M`
 
 
 ### preparation ###
@@ -150,8 +151,6 @@ fi
 if [ $DOTEST -eq 0 ]
 then
 	echo "DOALL"
-
-	NOWDATE=`date +%Y-%m-%d-%H%M`
 
 	# ACES sources (ARRI)
 	

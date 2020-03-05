@@ -161,6 +161,7 @@ class AmfFileReader:
                 for pipeline_element in section_element.getchildren():
 
                     if pipeline_element.tag == 'inputTransform':
+                        regularIDT = True
                         if ctx.verbose:
                             logger.info(f'    extracting <inputTransform>...')
                         transform = Transform()
@@ -169,17 +170,38 @@ class AmfFileReader:
                             transform.transform_id = pipeline_element.text
                         else:
                             if pipeline_element.tag == 'inputTransform':
-                                transform.type = 'IDT'
                                 applied_attribute = pipeline_element.get('applied')
                                 if applied_attribute == 'true':
                                     transform.applied = True
                             for idt_element in pipeline_element.getchildren():
+                                if idt_element.tag == 'transformId' or idt_element.tag == 'transformID':
+                                    transform.transform_id = idt_element.text
+                                    transform.type = 'IDT'
                                 if idt_element.tag == 'description':
                                     transform.description = idt_element.text
                                 # TODO: find out if 'transformId' (introduced in examples in Jan 2020) or 'transformID'
-                                if idt_element.tag == 'transformId' or idt_element.tag == 'transformID':
-                                    transform.transform_id = idt_element.text
-                        self.aces_metadata_file.pipeline.input_transforms.append(transform)
+                                if idt_element.tag == 'inverseOutputDeviceTransform':
+                                    transform = Transform()
+                                    for invodt_element in idt_element.getchildren():
+                                        if invodt_element.tag == 'transformId' or invodt_element.tag == 'transformID':
+                                            transform.transform_id = invodt_element.text
+                                            transform.type = 'InvODT'
+                                        if invodt_element.tag == 'description':
+                                            transform.description = invodt_element.text
+                                    self.aces_metadata_file.pipeline.output_transforms.append(transform)
+                                    regularIDT=False
+                                if idt_element.tag == 'inverseReferenceRenderingTransform':
+                                    transform = Transform()
+                                    for invrrt_element in idt_element.getchildren():
+                                        if invrrt_element.tag == 'transformId' or invrrt_element.tag == 'transformID':
+                                            transform.transform_id = invrrt_element.text
+                                            transform.type = 'InvRRT'
+                                        if invrrt_element.tag == 'description':
+                                            transform.description = invrrt_element.text
+                                    self.aces_metadata_file.pipeline.output_transforms.append(transform)
+                                    regularIDT = False
+                        if regularIDT:
+                            self.aces_metadata_file.pipeline.input_transforms.append(transform)
 
                     if pipeline_element.tag == 'lookTransform':
                         if ctx.verbose:
