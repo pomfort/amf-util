@@ -199,6 +199,8 @@ class AmfFileReader:
                                     transform.type = 'RRT'
                                 elif output_element.tag == 'outputDeviceTransform':
                                     transform.type = 'ODT'
+                                elif output_element.tag == 'outputTransform':
+                                    transform.type = 'RRTODT'
                                 for rrt_element in output_element.getchildren():
                                     if rrt_element.tag == 'description':
                                         transform.description = rrt_element.text

@@ -47,14 +47,10 @@
             </cdl:SatNode>
         </aces:lookTransform>
         <aces:outputTransform>
-            <aces:referenceRenderingTransform>
-                <aces:description>ACES 1.0 - RRT</aces:description>
-                <aces:transformId>urn:ampas:aces:transformId:v1.5:RRT.a1.0.3</aces:transformId>
-            </aces:referenceRenderingTransform>
-            <aces:outputDeviceTransform>
-                <aces:description>ACES 1.0 Output - Rec.2020</aces:description>
-                <aces:transformId>urn:ampas:aces:transformId:v1.5:ODT.Academy.Rec2020_100nits_dim.a1.0.3</aces:transformId>
-            </aces:outputDeviceTransform>
+            <aces:outputTransform>
+                <aces:description>ACES 1.0 Output - Rec.2020 ST2084 (1000 nits)</aces:description>
+                <aces:transformId>urn:ampas:aces:transformId:v1.5:RRTODT.Academy.Rec2020_1000nits_15nits_ST2084.a1.1.0</aces:transformId>
+            </aces:outputTransform>
         </aces:outputTransform>
     </aces:pipeline>
 </aces:acesMetadataFile>

@@ -7,7 +7,7 @@
 ROOTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
 # DOALL=1	# not needed any more, if DOTEST is 1, no full set is done
-DOTEST=1
+DOTEST=0
 
 DOZIP=1
 
@@ -138,7 +138,9 @@ then
 	#render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
 	#render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
 	
-	render_frame A003C001_190625_R24Y__Rec709 Rec.709-Rec.709100nitsdim
+	render_frame A003C001_190625_R24Y LogCEI800-Rec.2020ST20841000nits
+	
+	#render_frame A003C001_190625_R24Y__Rec709 Rec.709-Rec.709100nitsdim
 
 fi
 
