@@ -106,10 +106,14 @@ class Transform:
         self.transform_id = None
         self.applied = False
         self.relative_path = None
+        self.hash_string = None
 
     def short_transform_id(self):
         # TODO: what can the version string be? (e.g. urn:ampas:aces:transformId:v1.5)
-        return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', self.transform_id)
+        if self.transform_id is not None:
+            return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', self.transform_id)
+        else:
+            return self.transform_id
 
 
 class AmfFileReader:
@@ -211,24 +215,35 @@ class AmfFileReader:
                     if pipeline_element.tag == 'outputTransform':
                         if ctx.verbose:
                             logger.info(f'    extracting <outputTransform>...')
+
+                        transform = None
                         for output_element in pipeline_element.getchildren():
-                            transform = Transform()
-                            if output_element.tag == 'transformId':
-                                transform.type = '???'
-                                transform.transform_id = output_element.text
+                            if output_element.tag == 'transformId' or output_element.tag == 'description' or output_element.tag == 'hash' :
+                                # HDR: RRTODT
+                                if transform == None:
+                                    transform = Transform()
+                                    transform.type = 'RRTODT'
+                                if output_element.tag == 'transformId':
+                                    transform.transform_id = output_element.text
+                                if output_element.tag == 'description':
+                                    transform.description = output_element.text
+                                if output_element.tag == 'hash':
+                                    transform.hash_string = output_element.text
                             else:
+                                # SDR: RRT + ODT
+                                transform = Transform()
                                 if output_element.tag == 'referenceRenderingTransform':
                                     transform.type = 'RRT'
                                 elif output_element.tag == 'outputDeviceTransform':
                                     transform.type = 'ODT'
-                                elif output_element.tag == 'outputTransform':
-                                    transform.type = 'RRTODT'
                                 for rrt_element in output_element.getchildren():
                                     if rrt_element.tag == 'description':
                                         transform.description = rrt_element.text
-                                    # TODO: find out if 'transformId' (introduced in examples in Jan 2020) or 'transformID'
-                                    if rrt_element.tag == 'transformId' or rrt_element.tag == 'transformID':
+                                    if rrt_element.tag == 'transformId':
                                         transform.transform_id = rrt_element.text
+                                self.aces_metadata_file.pipeline.output_transforms.append(transform)
+
+                        if transform.type == 'RRTODT':
                             self.aces_metadata_file.pipeline.output_transforms.append(transform)
 
     def log_info(self):

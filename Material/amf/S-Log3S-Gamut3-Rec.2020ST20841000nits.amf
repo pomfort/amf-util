@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <aces:acesMetadataFile xmlns:aces="urn:ampas:aces:amf:v1.0" xmlns:cdl="urn:ASC:CDL:v1.01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ampas:aces:amf:v1.0 file:acesMetadataFile.xsd" version="1.0">
     <aces:amfInfo>
+        <aces:description>amf+wave, Livegrade Studio 5.1.0 (5275)</aces:description>
         <aces:dateTime>
-            <aces:creationDateTime>2020-01-21T09:30:29.54Z</aces:creationDateTime>
-            <aces:modificationDateTime>2020-01-21T09:30:29.54Z</aces:modificationDateTime>
+            <aces:creationDateTime>2020-03-05T16:25:41.87Z</aces:creationDateTime>
+            <aces:modificationDateTime>2020-03-05T16:25:41.87Z</aces:modificationDateTime>
         </aces:dateTime>
     </aces:amfInfo>
     <aces:clipId>
-        <aces:clipName></aces:clipName>
-        <aces:file></aces:file>
+        <aces:clipName>001C002 2</aces:clipName>
+        <aces:file>001C002 2</aces:file>
     </aces:clipId>
     <aces:pipeline>
         <aces:pipelineInfo>
+            <aces:description>slog_rec2020st2084</aces:description>
             <aces:dateTime>
-                <aces:creationDateTime>2020-01-21T09:29:44.82Z</aces:creationDateTime>
-                <aces:modificationDateTime>2020-01-21T09:29:44.82Z</aces:modificationDateTime>
+                <aces:creationDateTime>2020-03-05T16:17:42.65Z</aces:creationDateTime>
+                <aces:modificationDateTime>2020-03-05T16:18:58.84Z</aces:modificationDateTime>
             </aces:dateTime>
             <aces:systemVersion>
                 <aces:majorVersion>1</aces:majorVersion>
@@ -24,6 +26,7 @@
         </aces:pipelineInfo>
         <aces:inputTransform applied="false">
             <aces:description>ACES 1.0 Input - Sony SLog3 SGamut3</aces:description>
+            <aces:hash algorithm="http://www.w3.org/2001/04/xmldsig-more#md5">6229a4ef862f3457f8b3c96b5d18d15e</aces:hash>
             <aces:transformId>urn:ampas:aces:transformId:v1.5:IDT.Sony.SLog3_SGamut3.a1.v1</aces:transformId>
         </aces:inputTransform>
         <aces:lookTransform applied="false">
@@ -47,14 +50,9 @@
             </cdl:SatNode>
         </aces:lookTransform>
         <aces:outputTransform>
-            <aces:referenceRenderingTransform>
-                <aces:description>ACES 1.0 - RRT</aces:description>
-                <aces:transformId>urn:ampas:aces:transformId:v1.5:RRT.a1.0.3</aces:transformId>
-            </aces:referenceRenderingTransform>
-            <aces:outputDeviceTransform>
-                <aces:description>ACES 1.0 Output - Rec.2020</aces:description>
-                <aces:transformId>urn:ampas:aces:transformId:v1.5:ODT.Academy.Rec2020_100nits_dim.a1.0.3</aces:transformId>
-            </aces:outputDeviceTransform>
+            <aces:description>ACES 1.0 Output - Rec.2020 ST2084 (1000 nits)</aces:description>
+            <aces:hash algorithm="http://www.w3.org/2001/04/xmldsig-more#md5">1b6b3f47af7a6ba77e9aa7b32753e8da</aces:hash>
+            <aces:transformId>urn:ampas:aces:transformId:v1.5:RRTODT.Academy.Rec2020_1000nits_15nits_ST2084.a1.1.0</aces:transformId>
         </aces:outputTransform>
     </aces:pipeline>
 </aces:acesMetadataFile>
