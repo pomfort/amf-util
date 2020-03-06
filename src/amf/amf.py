@@ -210,6 +210,23 @@ class AmfFileReader:
                     if pipeline_element.tag == 'lookTransform':
                         if ctx.verbose:
                             logger.info(f'    extracting <lookTransform>...')
+
+                        transform = None
+                        for lmt_element in pipeline_element.getchildren():
+                            if lmt_element.tag == 'transformId' or lmt_element.tag == 'description' or lmt_element.tag == 'hash':
+                                # LMT
+                                if transform == None:
+                                    transform = Transform()
+                                    transform.type = 'LMT'
+                                if lmt_element.tag == 'transformId':
+                                    transform.transform_id = lmt_element.text
+                                if lmt_element.tag == 'description':
+                                    transform.description = lmt_element.text
+                                if lmt_element.tag == 'hash':
+                                    transform.hash_string = lmt_element.text
+                        if transform is not None and transform.type == 'LMT':
+                            self.aces_metadata_file.pipeline.look_transforms.append(transform)
+
                         # TODO: implement
 
                     if pipeline_element.tag == 'outputTransform':
@@ -309,6 +326,9 @@ class AmfFileReader:
 
         logger.info("$CTLRENDER \\")
         for transform in self.aces_metadata_file.pipeline.input_transforms:
+            if transform.applied is False:
+                self.log_transform_for_render(transform, ctl_root_path)
+        for transform in self.aces_metadata_file.pipeline.look_transforms:
             if transform.applied is False:
                 self.log_transform_for_render(transform, ctl_root_path)
         for transform in self.aces_metadata_file.pipeline.output_transforms:

@@ -11,7 +11,7 @@ DOTEST=0
 
 DOZIP=1
 
-#NOWDATE="Test-EXR"
+#NOWDATE="Test-sRGB"
 NOWDATE=`date +%Y-%m-%d-%H%M`
 
 
@@ -131,17 +131,9 @@ if [ $DOTEST -eq 1 ]
 then
 	echo "DOTEST"
 	#render_frame ArriAlexa.LowKey.0090350 amf_minimal
-	#render_frame ArriAlexa.Portrait.0177143 example2
 
-	#render_frame A003C001_190625_R24Y LogCEI800-Rec.709100nitsdim__skip-IDT exr
-	#render_frame A003C001_190625_R24Y LogCEI800-Rec.709100nitsdim
-
-	#render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
-	#render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
-	
-	render_frame A003C001_190625_R24Y LogCEI800-Rec.2020ST20841000nits
-	
-	#render_frame A003C001_190625_R24Y__Rec709 Rec.709-Rec.709100nitsdim
+	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.709100nitsdim
+	render_frame ArriAlexa.LowLight.0117185 LogCEI800-LMT-Rec.709100nitsdim
 
 fi
 
@@ -152,56 +144,28 @@ if [ $DOTEST -eq 0 ]
 then
 	echo "DOALL"
 
-	# ACES sources (ARRI)
-	
-#	render_frame ArriAlexa.HighKey.0101699 LogCEI800-Rec.709100nitsdim
-#	render_frame ArriAlexa.HighKey.0101699 LogCEI800-P3D65-D60sim48nits
-#	render_frame ArriAlexa.HighKey.0101699 LogCEI800-Rec.2020ST20841000nits
-#
-#	render_frame ArriAlexa.LowKey.0090350 LogCEI800-Rec.709100nitsdim
-#	render_frame ArriAlexa.LowKey.0090350 LogCEI800-P3D65-D60sim48nits
-#	render_frame ArriAlexa.LowKey.0090350 LogCEI800-Rec.2020ST20841000nits
-#
-#	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.709100nitsdim
-#	render_frame ArriAlexa.LowLight.0117185 LogCEI800-P3D65-D60sim48nits
-#	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.2020ST20841000nits
-#
-#	render_frame ArriAlexa.Portrait.0177143 LogCEI800-Rec.709100nitsdim
-#	render_frame ArriAlexa.Portrait.0177143 LogCEI800-P3D65-D60sim48nits
-#	render_frame ArriAlexa.Portrait.0177143 LogCEI800-Rec.2020ST20841000nits
-#
-#	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.709100nitsdim
-#	render_frame ArriAlexa.StillLife.0181284 LogCEI800-P3D65-D60sim48nits
-#	render_frame ArriAlexa.StillLife.0181284 LogCEI800-Rec.2020ST20841000nits
-	
-	# ACES sources (Sony F35?)
-
-	# ...
-
 	# Netflix sources
-
 	render_frame A003C001_190625_R24Y LogCEI800-Rec.709100nitsdim
 	render_frame A003C001_190625_R24Y LogCEI800-P3D65-D60sim48nits
 	render_frame A003C001_190625_R24Y LogCEI800-Rec.2020ST20841000nits
-
-	# render_frame M001_C001_06198Y_001 REDlog3G10-Rec.709100nitsdim
-
 	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.709100nitsdim
 	render_frame A004C002_190619J4 S-Log3S-Gamut3-Rec.2020ST20841000nits	
 	
 	# Rec.709
-
 	render_frame A003C001_190625_R24Y__Rec709 Rec.709-Rec.709100nitsdim
 
+	# sRGB
+	render_frame sRGB-ACES-Logo sRGB-P3D6548nits
+
 	# OpenEXR in ACES AP0 for VFX	
-	
 	render_frame A003C001_190625_R24Y__ACES LogCEI800-Rec.709100nitsdim__skip-IDT exr
 	
-
-	# sRGB
-	# ADSM ? 
-	# DCDM (16-bit tiff) ? DCP ?
+	# LMT (blue highlight fix)
+	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.709100nitsdim
+	render_frame ArriAlexa.LowLight.0117185 LogCEI800-LMT-Rec.709100nitsdim
 	
+	# DCDM (16-bit tiff)
+	# vi Dan	
 	
 fi
 

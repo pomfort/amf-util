@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<aces:acesMetadataFile xmlns:aces="urn:ampas:aces:amf:v1.0" xmlns:cdl="urn:ASC:CDL:v1.01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ampas:aces:amf:v1.0 file:acesMetadataFile.xsd" version="1.0">
+    <aces:amfInfo>
+        <aces:description>Hotel, Livegrade Studio 5.1.1 (5293)</aces:description>
+        <aces:dateTime>
+            <aces:creationDateTime>2020-03-06T09:47:07.87Z</aces:creationDateTime>
+            <aces:modificationDateTime>2020-03-06T09:47:07.87Z</aces:modificationDateTime>
+        </aces:dateTime>
+    </aces:amfInfo>
+    <aces:pipeline>
+        <aces:pipelineInfo>
+            <aces:dateTime>
+                <aces:creationDateTime>2020-03-06T09:47:07.87Z</aces:creationDateTime>
+                <aces:modificationDateTime>2020-03-06T09:47:07.87Z</aces:modificationDateTime>
+            </aces:dateTime>
+            <aces:systemVersion>
+                <aces:majorVersion>1</aces:majorVersion>
+                <aces:minorVersion>2</aces:minorVersion>
+                <aces:patchVersion>0</aces:patchVersion>
+            </aces:systemVersion>
+        </aces:pipelineInfo>
+        <aces:inputTransform applied="false">
+            <aces:inverseOutputDeviceTransform>
+                <aces:description>ACES 1.0 Inverse Output - sRGB</aces:description>
+                <aces:hash algorithm="http://www.w3.org/2001/04/xmldsig-more#md5">2210530ecba39624c4749bb23ac68821</aces:hash>
+                <aces:transformId>urn:ampas:aces:transformId:v1.5:InvODT.Academy.RGBmonitor_100nits_dim.a1.0.3</aces:transformId>
+            </aces:inverseOutputDeviceTransform>
+            <aces:inverseReferenceRenderingTransform>
+                <aces:transformId>urn:ampas:aces:transformId:v1.5:InvRRT.a1.0.3</aces:transformId>
+            </aces:inverseReferenceRenderingTransform>
+        </aces:inputTransform>
+        <aces:lookTransform applied="false">
+            <aces:lookTransformWorkingSpace>
+                <aces:toLookTransformWorkingSpace>
+                    <aces:description>ACES2065-1 to LogC EI800 AWG</aces:description>
+                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.ACES_to_LogC_EI800_AWG.a1.v1</aces:transformId>
+                </aces:toLookTransformWorkingSpace>
+                <aces:fromLookTransformWorkingSpace>
+                    <aces:description>LogC EI800 AWG to ACES2065-1</aces:description>
+                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.LogC_EI800_AWG_to_ACES.a1.v1</aces:transformId>
+                </aces:fromLookTransformWorkingSpace>
+            </aces:lookTransformWorkingSpace>
+            <cdl:SOPNode>
+                <cdl:Slope>1 1 1</cdl:Slope>
+                <cdl:Offset>0 0 0</cdl:Offset>
+                <cdl:Power>1 1 1</cdl:Power>
+            </cdl:SOPNode>
+            <cdl:SatNode>
+                <cdl:Saturation>1</cdl:Saturation>
+            </cdl:SatNode>
+        </aces:lookTransform>
+        <aces:outputTransform>
+            <aces:referenceRenderingTransform>
+                <aces:description>ACES 1.0 - RRT</aces:description>
+                <aces:transformId>urn:ampas:aces:transformId:v1.5:RRT.a1.0.3</aces:transformId>
+            </aces:referenceRenderingTransform>
+            <aces:outputDeviceTransform>
+                <aces:description>ACES 1.0 Output - Rec.709</aces:description>
+                <aces:hash algorithm="http://www.w3.org/2001/04/xmldsig-more#md5">db2a94c76a55ea0eb6ba3b9ee10607eb</aces:hash>
+                <aces:transformId>urn:ampas:aces:transformId:v1.5:ODT.Academy.Rec709_100nits_dim.a1.0.3</aces:transformId>
+            </aces:outputDeviceTransform>
+        </aces:outputTransform>
+    </aces:pipeline>
+</aces:acesMetadataFile>
