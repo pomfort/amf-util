@@ -14,8 +14,10 @@
 	* created from `A004C002_190619J4.MXF` (X-AVC Intra, default settings in Sony RAW Viewer)
 	* source: Netflix, via AMF Imp VWG
 
-* RED (log3G10): M001_C001_06198Y_001.tif
+* RED (log3G10): M001_C001_06198Y_001.tiff
 	* created from `M001_C001_06198Y_001.R3D` (default settings "from file" in REDCINE-X PRO)
 	* DSMC2 MONSTRO 8K VV
 	* source: Netflix, via AMF Imp VWG
-	
+
+* XYZ: TIFF_DATA_XYZ_DCI_FLAT00087600
+	* source: Dan Tatut, Marquise Technology

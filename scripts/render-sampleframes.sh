@@ -11,7 +11,7 @@ DOTEST=0
 
 DOZIP=1
 
-#NOWDATE="Test-sRGB"
+#NOWDATE="Test-XYZ"
 NOWDATE=`date +%Y-%m-%d-%H%M`
 
 
@@ -132,8 +132,10 @@ then
 	echo "DOTEST"
 	#render_frame ArriAlexa.LowKey.0090350 amf_minimal
 
-	render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.709100nitsdim
-	render_frame ArriAlexa.LowLight.0117185 LogCEI800-LMT-Rec.709100nitsdim
+	#render_frame ArriAlexa.LowLight.0117185 LogCEI800-Rec.709100nitsdim
+	#render_frame ArriAlexa.LowLight.0117185 LogCEI800-LMT-Rec.709100nitsdim
+
+	render_frame TIFF_DATA_XYZ_DCI_FLAT00087600 XYZ-Rec.709100nitsdim
 
 fi
 
@@ -165,7 +167,7 @@ then
 	render_frame ArriAlexa.LowLight.0117185 LogCEI800-LMT-Rec.709100nitsdim
 	
 	# DCDM (16-bit tiff)
-	# vi Dan	
+	render_frame TIFF_DATA_XYZ_DCI_FLAT00087600 XYZ-Rec.709100nitsdim
 	
 fi
 
