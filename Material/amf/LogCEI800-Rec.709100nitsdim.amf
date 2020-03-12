@@ -26,27 +26,7 @@
             <aces:description>ACES 1.0 Input - ARRI V3 LogC (EI800)</aces:description>
             <aces:transformId>urn:ampas:aces:transformId:v1.5:IDT.ARRI.Alexa-v3-logC-EI800.a1.v2</aces:transformId>
         </aces:inputTransform>
-        <aces:lookTransform applied="false">
-            <aces:lookTransformWorkingSpace>
-                <aces:toLookTransformWorkingSpace>
-                    <aces:description>ACES2065-1 to ACEScct</aces:description>
-                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.Academy.ACES_to_ACEScct.a1.0.3</aces:transformId>
-                </aces:toLookTransformWorkingSpace>
-                <aces:fromLookTransformWorkingSpace>
-                    <aces:description>ACEScct to ACES2065-1</aces:description>
-                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.Academy.ACEScct_to_ACES.a1.0.3</aces:transformId>
-                </aces:fromLookTransformWorkingSpace>
-            </aces:lookTransformWorkingSpace>
-            <cdl:SOPNode>
-                <cdl:Slope>1 1 1</cdl:Slope>
-                <cdl:Offset>0 0 0</cdl:Offset>
-                <cdl:Power>1 1 1</cdl:Power>
-            </cdl:SOPNode>
-            <cdl:SatNode>
-                <cdl:Saturation>1</cdl:Saturation>
-            </cdl:SatNode>
-        </aces:lookTransform>
-        <aces:outputTransform>
+              <aces:outputTransform>
             <aces:referenceRenderingTransform>
                 <aces:description>ACES 1.0 - RRT</aces:description>
                 <aces:transformId>urn:ampas:aces:transformId:v1.5:RRT.a1.0.3</aces:transformId>

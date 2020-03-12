@@ -29,27 +29,7 @@
             <aces:hash algorithm="http://www.w3.org/2001/04/xmldsig-more#md5">6229a4ef862f3457f8b3c96b5d18d15e</aces:hash>
             <aces:transformId>urn:ampas:aces:transformId:v1.5:IDT.Sony.SLog3_SGamut3.a1.v1</aces:transformId>
         </aces:inputTransform>
-        <aces:lookTransform applied="false">
-            <aces:lookTransformWorkingSpace>
-                <aces:toLookTransformWorkingSpace>
-                    <aces:description>ACES2065-1 to ACEScct</aces:description>
-                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.Academy.ACES_to_ACEScct.a1.0.3</aces:transformId>
-                </aces:toLookTransformWorkingSpace>
-                <aces:fromLookTransformWorkingSpace>
-                    <aces:description>ACEScct to ACES2065-1</aces:description>
-                    <aces:transformId>urn:ampas:aces:transformId:v1.5:ACEScsc.Academy.ACEScct_to_ACES.a1.0.3</aces:transformId>
-                </aces:fromLookTransformWorkingSpace>
-            </aces:lookTransformWorkingSpace>
-            <cdl:SOPNode>
-                <cdl:Slope>1 1 1</cdl:Slope>
-                <cdl:Offset>0 0 0</cdl:Offset>
-                <cdl:Power>1 1 1</cdl:Power>
-            </cdl:SOPNode>
-            <cdl:SatNode>
-                <cdl:Saturation>1</cdl:Saturation>
-            </cdl:SatNode>
-        </aces:lookTransform>
-        <aces:outputTransform>
+             <aces:outputTransform>
             <aces:description>ACES 1.0 Output - Rec.2020 ST2084 (1000 nits)</aces:description>
             <aces:hash algorithm="http://www.w3.org/2001/04/xmldsig-more#md5">1b6b3f47af7a6ba77e9aa7b32753e8da</aces:hash>
             <aces:transformId>urn:ampas:aces:transformId:v1.5:RRTODT.Academy.Rec2020_1000nits_15nits_ST2084.a1.1.0</aces:transformId>
