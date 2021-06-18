@@ -104,6 +104,7 @@ class Transform:
         self.type = None
         self.description = None
         self.transform_id = None
+        self.file = None
         self.applied = False
         self.relative_path = None
         self.hash_string = None
@@ -213,13 +214,16 @@ class AmfFileReader:
 
                         transform = None
                         for lmt_element in pipeline_element.getchildren():
-                            if lmt_element.tag == 'transformId' or lmt_element.tag == 'description' or lmt_element.tag == 'hash':
+                            if lmt_element.tag == 'transformId' or lmt_element.tag == 'description' or \
+                                    lmt_element.tag == 'hash' or lmt_element.tag == 'file':
                                 # LMT
                                 if transform == None:
                                     transform = Transform()
                                     transform.type = 'LMT'
                                 if lmt_element.tag == 'transformId':
                                     transform.transform_id = lmt_element.text
+                                if lmt_element.tag == 'file':
+                                    transform.file = lmt_element.text
                                 if lmt_element.tag == 'description':
                                     transform.description = lmt_element.text
                                 if lmt_element.tag == 'hash':
@@ -285,9 +289,19 @@ class AmfFileReader:
         applied_string = ""
         if transform.applied is True:
             applied_string = " [applied=\"true\"]"
+
+        identifier_string = ""
+        if transform.transform_id is not None:
+            identifier_string = transform.short_transform_id()
+            if transform.file is not None:
+                identifier_string = identifier_string + "/\"" + transform.file + "\""
+        elif transform.file is not None:
+            identifier_string = "\"" + transform.file + "\""
+        else:
+            identifier_string = "?"
+
         logger.info("                   {0}: {1}{2} ({3})".format(transform.type,
-                                                                  # transform.transform_id,
-                                                                  transform.short_transform_id(),
+                                                                  identifier_string,
                                                                   applied_string,
                                                                   transform.description))
 
@@ -301,12 +315,32 @@ class AmfFileReader:
         logger.info("# transforms:")
 
         for transform in self.aces_metadata_file.pipeline.input_transforms:
+            identifier_string = ""
+            if transform.transform_id is not None:
+                identifier_string = transform.short_transform_id()
+                if transform.file is not None:
+                    identifier_string = identifier_string + "/\"" + transform.file + "\""
+            elif transform.file is not None:
+                identifier_string = "\"" + transform.file + "\""
+            else:
+                identifier_string = "?"
+
             logger.info("#   {0}: {1} ({2})".format(transform.type,
-                                                    transform.short_transform_id(),
+                                                    identifier_string,
                                                     transform.description))
         for transform in self.aces_metadata_file.pipeline.look_transforms:
+            identifier_string = ""
+            if transform.transform_id is not None:
+                identifier_string = transform.short_transform_id()
+                if transform.file is not None:
+                    identifier_string = identifier_string + "/\"" + transform.file + "\""
+            elif transform.file is not None:
+                identifier_string = "\"" + transform.file + "\""
+            else:
+                identifier_string = "?"
+
             logger.info("#   {0}: {1} ({2})".format(transform.type,
-                                                    transform.short_transform_id(),
+                                                    identifier_string,
                                                     transform.description))
         for transform in self.aces_metadata_file.pipeline.output_transforms:
             logger.info("#   {0}: {1} ({2})".format(transform.type,
