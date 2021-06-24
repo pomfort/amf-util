@@ -108,14 +108,22 @@ class Transform:
         self.applied = False
         self.relative_path = None
         self.hash_string = None
+        self.toCdlWorkingSpace_transform_id = None
+        self.toCdlWorkingSpace_description = None
+        self.fromCdlWorkingSpace_transform_id = None
+        self.fromCdlWorkingSpace_description = None
+        self.SOP = None
+        self.SAT = None
+
+    def short_transform_id_for_transform_id(self, transform_id):
+        # TODO: what can the version string be? (e.g. urn:ampas:aces:transformId:v1.5)
+        if transform_id is not None:
+            return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', transform_id)
+        else:
+            return transform_id
 
     def short_transform_id(self):
-        # TODO: what can the version string be? (e.g. urn:ampas:aces:transformId:v1.5)
-        if self.transform_id is not None:
-            return re.sub(r'^urn:ampas:aces:transformId:v[0-9].[0-9]:', '', self.transform_id)
-        else:
-            return self.transform_id
-
+        return self.short_transform_id_for_transform_id(self.transform_id)
 
 class AmfFileReader:
     """class to read an AMF file into a AcesMetadataFile object
@@ -220,6 +228,9 @@ class AmfFileReader:
                                 if transform == None:
                                     transform = Transform()
                                     transform.type = 'LMT'
+                                applied_attribute = pipeline_element.get('applied')
+                                if applied_attribute == 'true':
+                                    transform.applied = True
                                 if lmt_element.tag == 'transformId':
                                     transform.transform_id = lmt_element.text
                                 if lmt_element.tag == 'file':
@@ -228,7 +239,44 @@ class AmfFileReader:
                                     transform.description = lmt_element.text
                                 if lmt_element.tag == 'hash':
                                     transform.hash_string = lmt_element.text
-                        if transform is not None and transform.type == 'LMT':
+                            if lmt_element.tag == 'cdlWorkingSpace' or lmt_element.tag == 'SOPNode' or lmt_element.tag == 'SatNode':
+                                # CDL SOP node
+                                if transform == None:
+                                    transform = Transform()
+                                    transform.type = 'CDL'
+                                applied_attribute = pipeline_element.get('applied')
+                                if applied_attribute == 'true':
+                                    transform.applied = True
+                                if lmt_element.tag == 'cdlWorkingSpace':
+                                    for wcs_element in lmt_element.getchildren():
+                                        if wcs_element.tag == 'toCdlWorkingSpace':
+                                            for to_wcs_element in wcs_element.getchildren():
+                                                if to_wcs_element.tag == 'description':
+                                                    transform.toCdlWorkingSpace_description = to_wcs_element.text
+                                                if to_wcs_element.tag == 'transformId':
+                                                    transform.toCdlWorkingSpace_transform_id = to_wcs_element.text
+                                        if wcs_element.tag == 'fromCdlWorkingSpace':
+                                            for to_wcs_element in wcs_element.getchildren():
+                                                if to_wcs_element.tag == 'description':
+                                                    transform.fromCdlWorkingSpace_description = to_wcs_element.text
+                                                if to_wcs_element.tag == 'transformId':
+                                                    transform.fromCdlWorkingSpace_transform_id = to_wcs_element.text
+                                if lmt_element.tag == 'SOPNode':
+                                    transform.SOP = ""
+                                    for sop_element in lmt_element.getchildren():
+                                        if sop_element.tag == 'Slope':
+                                            transform.SOP = transform.SOP + "S: " + sop_element.text + "  "
+                                        if sop_element.tag == 'Offset':
+                                            transform.SOP = transform.SOP + "O: " + sop_element.text + "  "
+                                        if sop_element.tag == 'Power':
+                                            transform.SOP = transform.SOP + "P: " + sop_element.text + "  "
+                                if lmt_element.tag == 'SatNode':
+                                    transform.SAT = ""
+                                    for sat_element in lmt_element.getchildren():
+                                        if sat_element.tag == 'Saturation':
+                                            transform.SAT = "Sat: " + sat_element.text
+
+                        if transform is not None and (transform.type == 'LMT' or transform.type == 'CDL'):
                             self.aces_metadata_file.pipeline.look_transforms.append(transform)
 
                         # TODO: implement
@@ -244,6 +292,9 @@ class AmfFileReader:
                                 if transform == None:
                                     transform = Transform()
                                     transform.type = 'RRTODT'
+                                applied_attribute = pipeline_element.get('applied')
+                                if applied_attribute == 'true':
+                                    transform.applied = True
                                 if output_element.tag == 'transformId':
                                     transform.transform_id = output_element.text
                                 if output_element.tag == 'description':
@@ -290,20 +341,46 @@ class AmfFileReader:
         if transform.applied is True:
             applied_string = " [applied=\"true\"]"
 
-        identifier_string = ""
-        if transform.transform_id is not None:
-            identifier_string = transform.short_transform_id()
-            if transform.file is not None:
-                identifier_string = identifier_string + "/\"" + transform.file + "\""
-        elif transform.file is not None:
-            identifier_string = "\"" + transform.file + "\""
-        else:
-            identifier_string = "?"
+        if transform.type == "CDL":
+            cdl_string = ""
+            if transform.SOP is not None:
+                cdl_string = transform.SOP
+            if transform.SAT is not None:
+                cdl_string = cdl_string + transform.SAT
 
-        logger.info("                   {0}: {1}{2} ({3})".format(transform.type,
-                                                                  identifier_string,
-                                                                  applied_string,
-                                                                  transform.description))
+            logger.info("                   {0}: {1}{2}".format(transform.type,
+                                                                cdl_string,
+                                                                applied_string,
+                                                                ))
+            to_wcs_string = ""
+            if transform.toCdlWorkingSpace_transform_id is not None:
+                to_wcs_string = transform.short_transform_id_for_transform_id(transform.toCdlWorkingSpace_transform_id)
+                if transform.toCdlWorkingSpace_description is not None:
+                    to_wcs_string = to_wcs_string + " (" + transform.toCdlWorkingSpace_description  + ")"
+            from_wcs_string = None
+            if transform.fromCdlWorkingSpace_transform_id is not None:
+                from_wcs_string = transform.short_transform_id_for_transform_id(transform.fromCdlWorkingSpace_transform_id)
+                if transform.fromCdlWorkingSpace_description is not None:
+                    from_wcs_string = from_wcs_string + " (" + transform.fromCdlWorkingSpace_description  + ")"
+            if to_wcs_string is not None:
+                logger.info("                          toCdlWorkingSpace: {0}".format(to_wcs_string))
+            if from_wcs_string is not None:
+                logger.info("                        fromCdlWorkingSpace: {0}".format(from_wcs_string))
+        else:
+            identifier_string = ""
+            if transform.transform_id is not None:
+                identifier_string = transform.short_transform_id()
+                if transform.file is not None:
+                    identifier_string = identifier_string + "/\"" + transform.file + "\""
+            elif transform.file is not None:
+                identifier_string = "\"" + transform.file + "\""
+            else:
+                identifier_string = "?"
+
+            logger.info("                   {0}: {1}{2} ({3})".format(transform.type,
+                                                                      identifier_string,
+                                                                      applied_string,
+                                                                      transform.description))
 
     def log_render(self, ctl_transforms, ctl_root_path):
 
