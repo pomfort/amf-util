@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 __author__ = "Patrick Renner"
 __copyright__ = "Copyright 2020, Pomfort GmbH"

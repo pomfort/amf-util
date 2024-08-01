@@ -102,7 +102,8 @@ class TransformsTraverser:
 
 						# FIXME: this is still under discussion
 						spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc",
-										 "InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT")
+										 "InvODT", "InvIDT", "InvRRT", "InvLMT", "InvRRTODT", 
+										 "CSC", "Output", "InvOutput")		# ACES 2.0
 						# spec_prefixes = ("ODT", "IDT", "RRT", "LMT", "RRTODT", "ACEScsc")
 
 						if not ctl.short_transform_id.startswith(spec_prefixes):
